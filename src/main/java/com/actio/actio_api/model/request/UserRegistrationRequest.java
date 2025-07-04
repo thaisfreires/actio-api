@@ -24,6 +24,7 @@ public class UserRegistrationRequest {
     private String nif;
 
     @NotNull(message = "É obrigatório informar a data de nascimento")
+    @Adult()
     private LocalDateTime date_of_birth;
 
     @Column(unique = true)
