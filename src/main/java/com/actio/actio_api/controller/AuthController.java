@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * validating credentials and returning a JWT token in the Authorization header upon success.
  *
  */
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

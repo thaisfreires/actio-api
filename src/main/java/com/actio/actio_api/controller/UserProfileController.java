@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * REST controller responsible for managing operations related to user profiles.
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * and other user-related actions. Input is validated using standard and custom annotations,
  * and appropriate responses are returned based on business rules and persistence results.
  */
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
