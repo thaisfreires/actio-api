@@ -6,8 +6,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Repository interface for managing {@link UserProfile} entities.
+ *
+ * Extends {@link JpaRepository} to provide standard CRUD operations.
+ * Includes additional query methods to support user authentication and validation workflows,
+ * such as checking for email and NIF uniqueness.
+ */
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
+
 
     Optional<UserProfile> findByEmail(String name);
 

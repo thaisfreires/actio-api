@@ -6,6 +6,10 @@ import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
+/**
+ * Custom validation annotation used to ensure that a user is at least 18 years old.
+ *
+ */
 @Target({ ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = AdultValidator.class)

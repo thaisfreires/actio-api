@@ -9,8 +9,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
+/**
+ * Service responsible for handling user authentication logic.
+ *
+ * This service coordinates Spring Security's {@link AuthenticationManager}
+ * with the application's persistence layer and JWT token generation logic.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -19,6 +28,18 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
+    /**
+     * Authenticates a user using email and password credentials.
+     *
+     * Upon successful authentication, the user's profile is retrieved from the database
+     * and a JWT token is generated. The result is packaged into a {@link LoginResponse}
+     * containing both the email and the generated token.
+     *
+     * @param request the login credentials including email and password
+     * @return the authenticated user's email and JWT token
+     * @throws AuthenticationException if authentication fails
+     * @throws NoSuchElementException if the user is not found after authentication
+     */
     public LoginResponse login(LoginRequest request){
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -32,6 +53,13 @@ public class AuthService {
                 .build();
     }
 
+    /**
+     * Retrieves a user profile by email.
+     *
+     * @param email the email to search for
+     * @return the matching {@link UserProfile}
+     * @throws java.util.NoSuchElementException if no user is found
+     */
     private  UserProfile findByEmail(String email){
         return repository.findByEmail(email).orElseThrow();
     }

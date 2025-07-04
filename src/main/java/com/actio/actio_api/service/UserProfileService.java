@@ -13,6 +13,16 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Service responsible for managing operations related to user profile creation.
+ *
+ * Handles user registration logic including:
+ *     Checking for uniqueness of email and NIF
+ *     Validating business rules
+ *     Encoding passwords
+ *     Persisting new users to the database
+ * Converts data between request/response DTOs and domain models.
+ */
 @Service
 @AllArgsConstructor
 public class UserProfileService {
@@ -20,6 +30,13 @@ public class UserProfileService {
     private final UserProfileRepository repository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Registers a new user after validating business constraints such as uniqueness of email and NIF.
+     *
+     * @param request the registration input with personal and authentication details
+     * @return a lightweight response containing the user's email and generated ID
+     * @throws FieldValidationException if email or NIF already exist
+     */
     public UserRegistrationResponse save(UserRegistrationRequest request){
         boolean emailExists = repository.existsUserProfileByEmail(request.getEmail());
         boolean nifExists = repository.existsUserProfileByNif(request.getNif());
@@ -38,6 +55,14 @@ public class UserProfileService {
             return userProfileToResponse(repository.save(newClient));
     }
 
+    /**
+     * Converts a validated registration request into a {@link UserProfile} entity,
+     * encoding the password and setting the specified role.
+     *
+     * @param request the user registration data
+     * @param role the role to assign to the new user
+     * @return the corresponding {@link UserProfile} entity ready for persistence
+     */
     private UserProfile requestToUserProfile(UserRegistrationRequest request, Role role) {
         return UserProfile.builder()
                 .name(request.getName())
@@ -49,6 +74,13 @@ public class UserProfileService {
                 .build();
     }
 
+    /**
+     * Converts a persisted {@link UserProfile} into a {@link UserRegistrationResponse}
+     * for returning to the client after successful creation.
+     *
+     * @param userProfile the saved user entity
+     * @return a response containing the user's ID and email
+     */
     private UserRegistrationResponse userProfileToResponse(UserProfile userProfile) {
         return UserRegistrationResponse.builder()
                 .email(userProfile.getEmail())

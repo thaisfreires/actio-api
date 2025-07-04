@@ -18,6 +18,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Utility class for generating, parsing, and validating JSON Web Tokens (JWT)
+ * used in user authentication.
+ *
+ * This class handles the lifecycle of a JWT — from creation with embedded user claims,
+ * to extraction and validation of claims during API request filtering.
+ *
+ * It uses a symmetric secret key configured via the {@code jwtKey} property,
+ * and signs tokens using HS256. The default validity duration for tokens is 60 minutes.
+ */
 @Component
 public class JwtUtil {
 
@@ -30,12 +40,21 @@ public class JwtUtil {
     private JwtParser jwtParser;
     private SecretKey key;
 
+    /**
+     * Initializes the secret key and parser after the bean is constructed.
+     */
     @PostConstruct
     public void init() {
         this.key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
         this.jwtParser = Jwts.parser().verifyWith(key).build();
     }
 
+    /**
+     * Creates a signed JWT token with the user's email and role as claims.
+     *
+     * @param user the user profile to embed in the token
+     * @return a signed JWT token
+     */
     public String createToken(UserProfile user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("name", user.getName());
@@ -54,6 +73,14 @@ public class JwtUtil {
                 .compact();
     }
 
+    /**
+     * Extracts and validates claims from a JWT token in the request.
+     *
+     * @param request the HTTP request containing the Authorization header
+     * @return the parsed JWT claims if present and valid, or {@code null}
+     * @throws ExpiredJwtException if the token has expired
+     * @throws Exception for any other invalid token condition
+     */
     public Claims resolveClaims(HttpServletRequest request) {
         try {
             String token = resolveToken(request);
@@ -70,6 +97,12 @@ public class JwtUtil {
         }
     }
 
+    /**
+     * Extracts the raw JWT token from the Authorization header, if present.
+     *
+     * @param request the HTTP request
+     * @return the raw token string, or {@code null} if not found or malformed
+     */
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(TOKEN_HEADER);
         if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
@@ -78,20 +111,44 @@ public class JwtUtil {
         return null;
     }
 
+    /**
+     * Validates whether the provided claims are still valid based on expiration.
+     *
+     * @param claims the claims extracted from the token
+     * @return {@code true} if the token is still valid; {@code false} otherwise
+     */
     public boolean validateClaims(Claims claims) {
         return claims.getExpiration().after(new Date());
     }
 
+    /**
+     * Retrieves the user's email from the token claims.
+     *
+     * @param claims the JWT claims
+     * @return the subject (user email)
+     */
     public String getEmail(Claims claims) {
         return claims.getSubject();
     }
 
+    /**
+     * Retrieves the user's email directly from a token string.
+     *
+     * @param token the full Bearer token string
+     * @return the subject (user email)
+     */
     public String getEmail(String token) {
         token = token.substring(TOKEN_PREFIX.length());
         Claims claims = parseJwtClaims(token);
         return  claims.getSubject();
     }
 
+    /**
+     * (Private) Extracts the role from claims, if present.
+     *
+     * @param claims the JWT claims
+     * @return the role name or {@code null} if not found
+     */
     private String getRole(Claims claims) {
         Object raw = claims.get("roles");
         return raw instanceof String ? (String) raw : null;

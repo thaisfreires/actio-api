@@ -25,6 +25,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * JWT authentication filter that intercepts requests to validate and authorize access tokens.
+ *
+ * This filter extracts JWT tokens from incoming HTTP requests, validates them using {@link JwtUtil},
+ * and populates the Spring Security context with authenticated user details and roles.
+ *
+ * If the token is invalid, expired, malformed, or unsupported, the filter generates a structured
+ * JSON error response without proceeding to the downstream filters.
+ */
 @Configuration
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
@@ -32,6 +41,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final ObjectMapper mapper;
     private final JwtUtil jwtUtil;
 
+    /**
+     * Intercepts each HTTP request to validate and process the JWT token if present.
+     *
+     * @param request     incoming HTTP request
+     * @param response    outgoing HTTP response
+     * @param filterChain the filter chain to continue processing if authentication succeeds
+     * @throws ServletException if filter processing fails
+     * @throws IOException      if writing to the response fails
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -80,7 +98,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-
+    /**
+     * Constructs and writes a standardized JSON error response to the client.
+     *
+     * @param response the HTTP response
+     * @param status   the HTTP status to return
+     * @param message  high-level description of the error
+     * @param detail   technical or specific error message
+     * @throws IOException if writing the response body fails
+     */
     private void buildErrorResponse(HttpServletResponse response, HttpStatus status, String message, String detail) throws IOException {
         Map<String, Object> error = new HashMap<>();
         error.put("timestamp", Instant.now());
@@ -93,8 +119,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         mapper.writeValue(response.getWriter(), error);
     }
-
-
 
 
 }

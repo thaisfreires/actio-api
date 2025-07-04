@@ -1,10 +1,20 @@
 package com.actio.actio_api.enums;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
+/**
+ * Enumeration representing user roles within the application.
+ *
+ * Each role defines a specific level of access or permissions.
+ * This enum is typically used for role-based authorization and access control.
+ */
 public enum Role {
 
+    /**
+     * Administrator role with elevated permissions.
+     */
     ADMIN("admin"),
+    /**
+     * Client role with standard user access.
+     */
     CLIENT("client");
 
     private String role;
