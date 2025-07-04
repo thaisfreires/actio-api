@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -20,7 +21,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class JwtUtil {
 
-    private String SECRET = "a-very-long-randomly-generated-secret-key-string-here-123456";
+    @Value("${jwtKey}")
+    private String SECRET;
     private final long ACCESS_TOKEN_VALIDITY_SECONDS = 3600;
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
