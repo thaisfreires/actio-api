@@ -1,5 +1,6 @@
-package com.actio.actio_api.model.webclient;
+package com.actio.actio_api.model.response;
 
+import com.actio.actio_api.model.webclient.GlobalQuote;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
