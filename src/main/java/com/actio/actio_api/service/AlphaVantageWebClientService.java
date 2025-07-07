@@ -1,7 +1,7 @@
 package com.actio.actio_api.service;
 
-import com.actio.actio_api.model.AlphaVantageResponse;
-import com.actio.actio_api.model.GlobalQuote;
+import com.actio.actio_api.model.webclient.AlphaVantageResponse;
+import com.actio.actio_api.model.webclient.GlobalQuote;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;

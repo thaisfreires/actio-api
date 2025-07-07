@@ -1,4 +1,4 @@
-package com.actio.actio_api.model;
+package com.actio.actio_api.model.webclient;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
