@@ -49,16 +49,16 @@ public class UserProfile {
      * Portuguese tax identification number (NIF).
      * Must be exactly 9 numeric digits and unique.
      */
-    @Size(min = 9, max = 9, message = "O NIF deve conter 9 digitos")
-    @Pattern(regexp = "\\d{9}", message = "NIF inválido")
-    @NotNull(message = "É obrigatório informar um NIF válido")
+    @Size(min = 9, max = 9, message = "NIF must contain 9 digits")
+    @Pattern(regexp = "\\d{9}", message = "Invalid NIF")
+    @NotNull(message = "A valid NIF is required")
     private String nif;
 
     /**
      * User’s date of birth.
      * Must not be null and user must be 18 years or older.
      */
-    @NotNull(message = "É obrigatório informar a data de nascimento")
+    @NotNull(message = "Date of birth is required")
     @Adult()
     private LocalDate date_of_birth;
 
@@ -67,16 +67,16 @@ public class UserProfile {
      * Must be in valid format and unique across users.
      */
     @Column(unique = true)
-    @NotNull(message = "É obrigatório informar o endereço de e-mail")
-    @Email(message = "Endereço de e-mail inválido")
+    @NotNull(message = "Email address is required")
+    @Email(message = "Invalid email address")
     private String email;
 
     /**
      * Encrypted password for account access.
      * Must be at least 9 characters long.
      */
-    @NotNull(message = "É obrigatório definir uma senha")
-    @Length(min = 9, message = "A senha deve conter ao menos 9 caracteres")
+    @NotNull(message = "Password is required")
+    @Length(min = 9, message = "Password must be at least 9 characters long")
     private String password;
 
     /**

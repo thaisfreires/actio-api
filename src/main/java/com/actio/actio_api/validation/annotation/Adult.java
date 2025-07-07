@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = AdultValidator.class)
 @Documented
 public @interface Adult {
-    String message() default "Registro restrito a pessoas maiores de 18 anos";
+    String message() default "Registration restricted to people over 18 years old";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

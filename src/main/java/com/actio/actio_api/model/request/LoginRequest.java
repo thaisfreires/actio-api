@@ -21,15 +21,15 @@ public class LoginRequest {
      * Must be a valid email format and cannot be null.
      */
     @Column(unique = true)
-    @NotNull(message = "É obrigatório informar o endereço de e-mail para se autenticar no sistema")
-    @Email(message = "Endereço de e-mail inválido")
+    @NotNull(message = "Email address is required to authenticate in the system")
+    @Email(message = "Invalid email address")
     private String email;
 
     /**
      * The user's password.
      * Must not be null.
      */
-    @NotNull(message = "É obrigatório informar a senha para se autenticar no sistema")
+    @NotNull(message = "Password is required to authenticate in the system")
     private String password;
 
 }

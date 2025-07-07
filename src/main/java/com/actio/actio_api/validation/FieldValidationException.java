@@ -18,7 +18,7 @@ public class FieldValidationException extends RuntimeException {
      * @param errors a map of field names and their associated validation messages
      */
     public FieldValidationException(Map<String, String> errors) {
-        super("Erro de validação nos campos");
+        super("Field validation error");
         this.errors = errors;
     }
 

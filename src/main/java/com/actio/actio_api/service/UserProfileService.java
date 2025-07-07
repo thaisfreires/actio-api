@@ -43,10 +43,10 @@ public class UserProfileService {
         if (emailExists || nifExists) {
             Map<String, String> errors = new HashMap<>();
             if (emailExists) {
-                errors.put("email", "Este e-mail já está em uso");
+                errors.put("email", "This email is already in use");
             }
             if (nifExists) {
-                errors.put("nif", "Este NIF já está em uso");
+                errors.put("nif", "This NIF is already in use");
             }
             throw new FieldValidationException(errors);
         }

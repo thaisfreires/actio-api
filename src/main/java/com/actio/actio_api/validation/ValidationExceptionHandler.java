@@ -61,10 +61,10 @@ public class ValidationExceptionHandler {
      */
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, String>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        String detail = ex.getRootCause() != null ? ex.getRootCause().getMessage() : "Violação de integridade no banco de dados";
+        String detail = ex.getRootCause() != null ? ex.getRootCause().getMessage() : "Database integrity violation";
 
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
-                .body(Map.of("error", "Violação de integridade", "details", detail));
+                .body(Map.of("error", "Integrity violation", "details", detail));
     }
 }
