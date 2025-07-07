@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Entity representing a user profile stored in the database.
@@ -60,7 +60,7 @@ public class UserProfile {
      */
     @NotNull(message = "É obrigatório informar a data de nascimento")
     @Adult()
-    private LocalDateTime date_of_birth;
+    private LocalDate date_of_birth;
 
     /**
      * Email address used for authentication and identification.

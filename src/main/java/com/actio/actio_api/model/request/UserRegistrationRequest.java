@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * Data transfer object representing a user registration request.
@@ -43,7 +43,7 @@ public class UserRegistrationRequest {
      */
     @NotNull(message = "É obrigatório informar a data de nascimento")
     @Adult()
-    private LocalDateTime date_of_birth;
+    private LocalDate date_of_birth;
 
     /**
      * The user's email address.
