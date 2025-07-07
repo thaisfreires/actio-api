@@ -1,0 +1,20 @@
+package com.actio.actio_api.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
+@Data
+public class AlphaVantageResponse {
+
+    @JsonProperty("Global Quote")
+    private GlobalQuote globalQuote;
+
+    public GlobalQuote getGlobalQuote() {
+        return globalQuote;
+    }
+
+    public void setGlobalQuote(GlobalQuote globalQuote) {
+        this.globalQuote = globalQuote;
+    }
+
+}
