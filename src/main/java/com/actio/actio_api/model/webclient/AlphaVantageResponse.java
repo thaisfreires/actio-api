@@ -13,8 +13,4 @@ public class AlphaVantageResponse {
         return globalQuote;
     }
 
-    public void setGlobalQuote(GlobalQuote globalQuote) {
-        this.globalQuote = globalQuote;
-    }
-
 }
