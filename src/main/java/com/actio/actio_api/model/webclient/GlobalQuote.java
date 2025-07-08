@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Data
@@ -14,16 +15,16 @@ public class GlobalQuote {
     private String symbol;
 
     @JsonProperty("02. open")
-    private Double open;
+    private BigDecimal open;
 
     @JsonProperty("03. high")
-    private Double high;
+    private BigDecimal high;
 
     @JsonProperty("04. low")
-    private Double low;
+    private BigDecimal low;
 
     @JsonProperty("05. price")
-    private Double price;
+    private BigDecimal price;
 
     @JsonProperty("06. volume")
     private BigInteger volume;
@@ -32,10 +33,10 @@ public class GlobalQuote {
     private String latestTradingDay;
 
     @JsonProperty("08. previous close")
-    private Double previousClose;
+    private BigDecimal previousClose;
 
     @JsonProperty("09. change")
-    private Double change;
+    private BigDecimal change;
 
     @JsonProperty("10. change percent")
     private String changePercent;
