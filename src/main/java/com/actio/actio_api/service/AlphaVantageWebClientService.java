@@ -4,6 +4,7 @@ import com.actio.actio_api.model.webclient.AlphaVantageResponse;
 import com.actio.actio_api.model.webclient.GlobalQuote;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -25,12 +26,14 @@ import java.math.BigDecimal;
 public class AlphaVantageWebClientService {
 
     private final WebClient webClient;
+    private final CurrencyCacheService currencyCacheService;
 
     @Value("${apiKey}")
     private String apiKey;
 
-    public AlphaVantageWebClientService(WebClient.Builder builder) {
+    public AlphaVantageWebClientService(WebClient.Builder builder, CurrencyCacheService currencyCacheService) {
         this.webClient = builder.baseUrl("https://www.alphavantage.co").build();
+        this.currencyCacheService = currencyCacheService;
     }
 
     /**
@@ -42,15 +45,10 @@ public class AlphaVantageWebClientService {
     public Mono<GlobalQuote> getStock(String symbol) {
         BigDecimal usdToEurRate;
         try {
-            usdToEurRate = getDolarEuroExchangeRate().block();
+            usdToEurRate = currencyCacheService.getUsdToEurRate(apiKey);
         } catch (Exception ex) {
             return Mono.error(new IllegalStateException("Failed to retrieve exchange rate: " + ex.getMessage()));
         }
-
-        if (usdToEurRate == null) {
-            return Mono.error(new IllegalStateException("Exchange rate came back null"));
-        }
-
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/query")
@@ -89,33 +87,6 @@ public class AlphaVantageWebClientService {
                 .latestTradingDay(quote.getLatestTradingDay())
                 .change(quote.getChange().multiply(exchangeRate))
                 .build();
-    }
-
-    /**
-     * Retrieves the USD to EUR exchange rate from the Alpha Vantage API.
-     * Validates the response and parses the rate as BigDecimal.
-     *
-     * @return Mono emitting the exchange rate as BigDecimal
-     */
-    private Mono<BigDecimal> getDolarEuroExchangeRate() {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/query")
-                        .queryParam("function", "CURRENCY_EXCHANGE_RATE")
-                        .queryParam("from_currency", "USD")
-                        .queryParam("to_currency", "EUR")
-                        .queryParam("apikey", apiKey)
-                        .build())
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(JsonNode.class)
-                .map(json -> {
-                    String rawRate = json.path("Realtime Currency Exchange Rate").path("5. Exchange Rate").asText();
-                    if (rawRate == null || rawRate.isEmpty()) {
-                        throw new IllegalStateException("Exchange rate not found");
-                    }
-                    return new BigDecimal(rawRate);
-                });
     }
 
 }
