@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
+
 @Service
 public class AlphaVantageWebClientService {
 
@@ -22,7 +24,17 @@ public class AlphaVantageWebClientService {
     }
 
     public Mono<GlobalQuote> getStock(String symbol) {
-        Double usdEur = getDolarEuroExchangeRate();
+        BigDecimal usdToEurRate;
+        try {
+            usdToEurRate = getDolarEuroExchangeRate().block();
+        } catch (Exception ex) {
+            return Mono.error(new IllegalStateException("Failed to retrieve exchange rate: " + ex.getMessage()));
+        }
+
+        if (usdToEurRate == null) {
+            return Mono.error(new IllegalStateException("Exchange rate came back null"));
+        }
+
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/query")
@@ -35,25 +47,28 @@ public class AlphaVantageWebClientService {
                 .retrieve()
                 .bodyToMono(AlphaVantageResponse.class)
                 .map(AlphaVantageResponse::getGlobalQuote)
-                .map(globalQuote -> mapGlobalQuoteToEuro(globalQuote, usdEur));
+                .map(globalQuote -> mapGlobalQuoteToEuro(globalQuote, usdToEurRate))
+                .onErrorResume(ex -> Mono.error(
+                        new IllegalStateException("Error fetching or converting stock data: " + ex.getMessage()
+                        )));
     }
 
-    private GlobalQuote mapGlobalQuoteToEuro(GlobalQuote quote, Double usdEuro) {
-         return GlobalQuote.builder()
-                .low(quote.getLow() * usdEuro)
-                 .open(quote.getOpen() * usdEuro)
-                 .price(quote.getPrice())
-                 .high(quote.getHigh() * usdEuro)
-                 .previousClose(quote.getPreviousClose() * usdEuro)
-                 .volume(quote.getVolume())
-                 .symbol(quote.getSymbol())
-                 .changePercent(quote.getChangePercent())
-                 .latestTradingDay(quote.getLatestTradingDay())
-                 .change(quote.getChange())
-                 .build();
+    private GlobalQuote mapGlobalQuoteToEuro(GlobalQuote quote, BigDecimal exchangeRate) {
+        return GlobalQuote.builder()
+                .low(quote.getLow().multiply(exchangeRate))
+                .open(quote.getOpen().multiply(exchangeRate))
+                .price(quote.getPrice().multiply(exchangeRate))
+                .high(quote.getHigh().multiply(exchangeRate))
+                .previousClose(quote.getPreviousClose().multiply(exchangeRate))
+                .volume(quote.getVolume())
+                .symbol(quote.getSymbol())
+                .changePercent(quote.getChangePercent())
+                .latestTradingDay(quote.getLatestTradingDay())
+                .change(quote.getChange().multiply(exchangeRate))
+                .build();
     }
 
-    private Double getDolarEuroExchangeRate() {
+    private Mono<BigDecimal> getDolarEuroExchangeRate() {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/query")
@@ -66,9 +81,12 @@ public class AlphaVantageWebClientService {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .map(json -> {
-                    String raw = json.path("Realtime Currency Exchange Rate").path("5. Exchange Rate").asText();
-                    return Double.parseDouble(raw);
-                }).block();
+                    String rawRate = json.path("Realtime Currency Exchange Rate").path("5. Exchange Rate").asText();
+                    if (rawRate == null || rawRate.isEmpty()) {
+                        throw new IllegalStateException("Exchange rate not found");
+                    }
+                    return new BigDecimal(rawRate);
+                });
     }
 
 }

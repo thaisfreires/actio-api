@@ -3,11 +3,14 @@ package com.actio.actio_api.controller;
 import com.actio.actio_api.model.webclient.GlobalQuote;
 import com.actio.actio_api.service.AlphaVantageWebClientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/stocks")
@@ -18,7 +21,18 @@ public class StockController {
 
     @GetMapping("/{symbol}")
     public ResponseEntity<?> getStock(@PathVariable String symbol) {
-        return ResponseEntity.ok(service.getStock(symbol).block());
+        try {
+            GlobalQuote quote = service.getStock(symbol).block();
+            return ResponseEntity.ok(quote);
+        } catch (IllegalStateException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "Could not retrieve stock data", "details", ex.getMessage()));
+        } catch (Exception ex) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Unexpected error occurred", "details", ex.getMessage()));
+        }
     }
 
 }
