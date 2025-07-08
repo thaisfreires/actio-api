@@ -9,12 +9,32 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.math.BigDecimal;
 
+/**
+ * Service responsible for retrieving and caching the USD to EUR currency exchange rate
+ * from the Alpha Vantage API using Spring WebClient.
+ *
+ * The exchange rate is cached for performance and reliability, reducing external API calls
+ * and ensuring consistent data usage across multiple stock quote requests.
+ *
+ * This service is designed to be injected into other components that require access to
+ * real-time currency conversion.
+ */
 @Service
 @RequiredArgsConstructor
 public class CurrencyCacheService {
 
     private final WebClient webClient;
 
+    /**
+     * Retrieves the USD to EUR exchange rate from the Alpha Vantage API.
+     * The result is cached using the cache named "usdToEurRate" to avoid repeated external calls.
+     *
+     * If the rate cannot be extracted from the response, an IllegalStateException is thrown.
+     * The use of .block() is intentional here, as caching via @Cacheable requires synchronous return.
+     *
+     * @param apiKey API key used for authentication with Alpha Vantage
+     * @return the exchange rate as a BigDecimal
+     */
     @Cacheable("usdToEurRate")
     public BigDecimal getUsdToEurRate(String apiKey) {
         return webClient.get()
@@ -34,6 +54,6 @@ public class CurrencyCacheService {
                         throw new IllegalStateException("Exchange rate not found");
                     }
                     return new BigDecimal(rawRate);
-                }).block(); // cache funciona aqui porque proxy intercepta externamente
+                }).block();
     }
 }
