@@ -1,6 +1,6 @@
 package com.actio.actio_api.service;
 
-import com.actio.actio_api.model.response.AlphaVantageResponse;
+import com.actio.actio_api.model.webclient.AlphaVantageResponse;
 import com.actio.actio_api.model.webclient.GlobalQuote;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +11,16 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 
+/**
+ * Service responsible for fetching stock quote data and currency exchange rates
+ * from the Alpha Vantage API, and converting all relevant monetary fields from USD to EUR.
+ *
+ * This class performs two operations:
+ * 1. Retrieves the current USD to EUR exchange rate from Alpha Vantage.
+ * 2. Fetches the latest stock quote for a given symbol and applies the exchange rate.
+ *
+ * It uses Spring WebClient for HTTP communication and returns data in reactive Mono format.
+ */
 @Service
 public class AlphaVantageWebClientService {
 
@@ -23,6 +33,12 @@ public class AlphaVantageWebClientService {
         this.webClient = builder.baseUrl("https://www.alphavantage.co").build();
     }
 
+    /**
+     * Fetches the latest stock quote for a given symbol and converts the financial values to EUR.
+     *
+     * @param symbol the stock symbol (e.g. "BCP.LS" or "NOS.LS")
+     * @return Mono emitting the converted GlobalQuote object
+     */
     public Mono<GlobalQuote> getStock(String symbol) {
         BigDecimal usdToEurRate;
         try {
@@ -53,6 +69,13 @@ public class AlphaVantageWebClientService {
                         )));
     }
 
+    /**
+     * Multiplies monetary values in the stock quote by the given USD→EUR exchange rate.
+     *
+     * @param quote the original GlobalQuote object with USD values
+     * @param exchangeRate the USD to EUR exchange rate to apply
+     * @return GlobalQuote with values converted to EUR
+     */
     private GlobalQuote mapGlobalQuoteToEuro(GlobalQuote quote, BigDecimal exchangeRate) {
         return GlobalQuote.builder()
                 .low(quote.getLow().multiply(exchangeRate))
@@ -68,6 +91,12 @@ public class AlphaVantageWebClientService {
                 .build();
     }
 
+    /**
+     * Retrieves the USD to EUR exchange rate from the Alpha Vantage API.
+     * Validates the response and parses the rate as BigDecimal.
+     *
+     * @return Mono emitting the exchange rate as BigDecimal
+     */
     private Mono<BigDecimal> getDolarEuroExchangeRate() {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder

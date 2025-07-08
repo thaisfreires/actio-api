@@ -12,6 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+/**
+ * REST controller responsible for exposing stock quote information via HTTP endpoints.
+ *
+ * This controller handles requests related to stocks, retrieves real-time quote data
+ * from the Alpha Vantage API (via {@link AlphaVantageWebClientService}), and returns
+ * the result formatted as JSON.
+ *
+ * The quotes returned are automatically converted from USD to EUR.
+ */
 @RestController
 @RequestMapping("/stocks")
 @RequiredArgsConstructor
@@ -19,6 +28,13 @@ public class StockController {
 
     private final AlphaVantageWebClientService service;
 
+    /**
+     * Endpoint that retrieves a stock quote based on the given symbol.
+     *
+     * @param symbol the stock symbol to query (e.g. "NOS.LS", "BCP.LS")
+     * @return ResponseEntity containing the stock quote in EUR if successful,
+     *         or an error message with appropriate HTTP status code if any exception occurs
+     */
     @GetMapping("/{symbol}")
     public ResponseEntity<?> getStock(@PathVariable String symbol) {
         try {
