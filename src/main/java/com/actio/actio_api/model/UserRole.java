@@ -7,15 +7,15 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "UserRole")
+@Table(name = "user_role")
 public class UserRole {
 
     @Id
-    @Column(name = "RoleCode")
+    @Column(name = "role_code")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roleCode;
 
-    @Column(name = "RoleDescription")
+    @Column(name = "role_description")
     private String roleDescription;
 
     @OneToMany(mappedBy = "userRole")
