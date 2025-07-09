@@ -105,6 +105,7 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/users/save").permitAll()
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/stocks/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
