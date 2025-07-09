@@ -18,7 +18,4 @@ public class MovementType {
     @Column(name = "type_description")
     private String typeDescription;
 
-    @OneToMany(mappedBy = "movementType")
-    private List<Movement> movements;
-
 }
