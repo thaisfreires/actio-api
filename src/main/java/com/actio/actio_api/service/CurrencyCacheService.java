@@ -20,10 +20,13 @@ import java.math.BigDecimal;
  * real-time currency conversion.
  */
 @Service
-@RequiredArgsConstructor
 public class CurrencyCacheService {
 
     private final WebClient webClient;
+
+    public CurrencyCacheService(WebClient.Builder builder) {
+        this.webClient = builder.baseUrl("https://www.alphavantage.co").build();
+    }
 
     /**
      * Retrieves the USD to EUR exchange rate from the Alpha Vantage API.
