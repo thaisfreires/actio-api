@@ -18,7 +18,4 @@ public class AccountStatus {
     @Column(name = "status_description")
     private String statusDescription;
 
-    @OneToMany(mappedBy = "status")
-    private List<Account> accounts;
-
 }
