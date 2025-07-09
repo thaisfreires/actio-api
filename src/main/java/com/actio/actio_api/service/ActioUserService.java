@@ -2,9 +2,11 @@ package com.actio.actio_api.service;
 
 import com.actio.actio_api.enums.Role;
 import com.actio.actio_api.model.ActioUser;
+import com.actio.actio_api.model.UserRole;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
 import com.actio.actio_api.repository.ActioUserRepository;
+import com.actio.actio_api.repository.UserRoleRepository;
 import com.actio.actio_api.validation.FieldValidationException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +31,7 @@ public class ActioUserService {
 
     private final ActioUserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRoleRepository userRoleRepository;
 
     /**
      * Registers a new user after validating business constraints such as uniqueness of email and NIF.
@@ -64,13 +67,16 @@ public class ActioUserService {
      * @return the corresponding {@link ActioUser} entity ready for persistence
      */
     private ActioUser requestToActioUser(UserRegistrationRequest request, Role role) {
+
+        UserRole userRole = userRoleRepository.findById(1).orElseThrow();
+
         return ActioUser.builder()
                 .name(request.getName())
                 .nif(request.getNif())
                 .date_of_birth(request.getDate_of_birth())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(role)
+                .userRole(userRole)
                 .build();
     }
 

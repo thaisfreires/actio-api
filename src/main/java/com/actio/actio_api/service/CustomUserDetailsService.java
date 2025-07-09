@@ -39,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         ActioUser user = actioUserRepository.findByEmail(email).orElseThrow();
         List<String> roles = new ArrayList<>();
-        roles.add(user.getRole().name());
+        roles.add(user.getUserRole().getRoleDescription());
         return
                 User.builder()
                         .username(user.getEmail())

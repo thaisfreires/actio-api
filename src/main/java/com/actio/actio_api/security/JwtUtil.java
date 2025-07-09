@@ -58,7 +58,7 @@ public class JwtUtil {
     public String createToken(ActioUser user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("name", user.getName());
-        claims.put("roles", new String[] { user.getRole().name() });
+        claims.put("roles", new String[] { user.getUserRole().getRoleDescription() });
 
         Date tokenCreationTime = new Date();
         Date tokenExpiration = new Date(tokenCreationTime.getTime()
