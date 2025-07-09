@@ -27,7 +27,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserProfile {
+public class ActioUser {
 
     /**
      * The primary key identifier of the user profile.

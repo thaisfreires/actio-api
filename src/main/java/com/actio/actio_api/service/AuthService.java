@@ -1,9 +1,9 @@
 package com.actio.actio_api.service;
 
-import com.actio.actio_api.model.UserProfile;
+import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.request.LoginRequest;
 import com.actio.actio_api.model.response.LoginResponse;
-import com.actio.actio_api.repository.UserProfileRepository;
+import com.actio.actio_api.repository.ActioUserRepository;
 import com.actio.actio_api.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +24,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserProfileRepository repository;
+    private final ActioUserRepository repository;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
@@ -44,7 +44,7 @@ public class AuthService {
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         String email = authentication.getName();
-        UserProfile user = this.findByEmail(request.getEmail());
+        ActioUser user = this.findByEmail(request.getEmail());
         String token = jwtUtil.createToken(user);
         return LoginResponse
                 .builder()
@@ -57,10 +57,10 @@ public class AuthService {
      * Retrieves a user profile by email.
      *
      * @param email the email to search for
-     * @return the matching {@link UserProfile}
+     * @return the matching {@link ActioUser}
      * @throws java.util.NoSuchElementException if no user is found
      */
-    private  UserProfile findByEmail(String email){
+    private ActioUser findByEmail(String email){
         return repository.findByEmail(email).orElseThrow();
     }
 }

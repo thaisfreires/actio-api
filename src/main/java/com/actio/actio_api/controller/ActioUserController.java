@@ -2,7 +2,7 @@ package com.actio.actio_api.controller;
 
 import com.actio.actio_api.model.request.UserRegistrationRequest;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
-import com.actio.actio_api.service.UserProfileService;
+import com.actio.actio_api.service.ActioUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-public class UserProfileController {
+public class ActioUserController {
 
-    private final UserProfileService service;
+    private final ActioUserService service;
 
     /**
      * Registers a new user profile.

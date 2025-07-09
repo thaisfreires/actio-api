@@ -1,10 +1,10 @@
 package com.actio.actio_api.service;
 
 import com.actio.actio_api.enums.Role;
-import com.actio.actio_api.model.UserProfile;
+import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
-import com.actio.actio_api.repository.UserProfileRepository;
+import com.actio.actio_api.repository.ActioUserRepository;
 import com.actio.actio_api.validation.FieldValidationException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,9 +25,9 @@ import java.util.Map;
  */
 @Service
 @AllArgsConstructor
-public class UserProfileService {
+public class ActioUserService {
 
-    private final UserProfileRepository repository;
+    private final ActioUserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
     /**
@@ -38,8 +38,8 @@ public class UserProfileService {
      * @throws FieldValidationException if email or NIF already exist
      */
     public UserRegistrationResponse save(UserRegistrationRequest request){
-        boolean emailExists = repository.existsUserProfileByEmail(request.getEmail());
-        boolean nifExists = repository.existsUserProfileByNif(request.getNif());
+        boolean emailExists = repository.existsActioUserByEmail(request.getEmail());
+        boolean nifExists = repository.existsActioUserByNif(request.getNif());
         if (emailExists || nifExists) {
             Map<String, String> errors = new HashMap<>();
             if (emailExists) {
@@ -51,20 +51,20 @@ public class UserProfileService {
             throw new FieldValidationException(errors);
         }
 
-        UserProfile newClient = requestToUserProfile(request, Role.CLIENT);
-            return userProfileToResponse(repository.save(newClient));
+        ActioUser newClient = requestToActioUser(request, Role.CLIENT);
+            return actioUserToResponse(repository.save(newClient));
     }
 
     /**
-     * Converts a validated registration request into a {@link UserProfile} entity,
+     * Converts a validated registration request into a {@link ActioUser} entity,
      * encoding the password and setting the specified role.
      *
      * @param request the user registration data
      * @param role the role to assign to the new user
-     * @return the corresponding {@link UserProfile} entity ready for persistence
+     * @return the corresponding {@link ActioUser} entity ready for persistence
      */
-    private UserProfile requestToUserProfile(UserRegistrationRequest request, Role role) {
-        return UserProfile.builder()
+    private ActioUser requestToActioUser(UserRegistrationRequest request, Role role) {
+        return ActioUser.builder()
                 .name(request.getName())
                 .nif(request.getNif())
                 .date_of_birth(request.getDate_of_birth())
@@ -75,16 +75,16 @@ public class UserProfileService {
     }
 
     /**
-     * Converts a persisted {@link UserProfile} into a {@link UserRegistrationResponse}
+     * Converts a persisted {@link ActioUser} into a {@link UserRegistrationResponse}
      * for returning to the client after successful creation.
      *
-     * @param userProfile the saved user entity
+     * @param actioUser the saved user entity
      * @return a response containing the user's ID and email
      */
-    private UserRegistrationResponse userProfileToResponse(UserProfile userProfile) {
+    private UserRegistrationResponse actioUserToResponse(ActioUser actioUser) {
         return UserRegistrationResponse.builder()
-                .email(userProfile.getEmail())
-                .id(userProfile.getId())
+                .email(actioUser.getEmail())
+                .id(actioUser.getId())
                 .build();
     }
 

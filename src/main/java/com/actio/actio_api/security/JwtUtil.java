@@ -1,6 +1,6 @@
 package com.actio.actio_api.security;
 
-import com.actio.actio_api.model.UserProfile;
+import com.actio.actio_api.model.ActioUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtParser;
@@ -55,7 +55,7 @@ public class JwtUtil {
      * @param user the user profile to embed in the token
      * @return a signed JWT token
      */
-    public String createToken(UserProfile user) {
+    public String createToken(ActioUser user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("name", user.getName());
         claims.put("roles", new String[] { user.getRole().name() });
