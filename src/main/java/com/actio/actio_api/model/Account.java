@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Entity
@@ -31,5 +32,8 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "status_code")
     private AccountStatus status;
+
+    @OneToMany(mappedBy = "account")
+    private List<StockItem> items;
 
 }
