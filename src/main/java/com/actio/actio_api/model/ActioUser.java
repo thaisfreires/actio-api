@@ -27,6 +27,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "actio_user")
 public class ActioUser {
 
     /**
@@ -34,7 +35,8 @@ public class ActioUser {
      * Generated automatically by the persistence provider.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private Long id;
 
     /**
@@ -43,6 +45,7 @@ public class ActioUser {
      */
     @NotNull
     @Length(min = 2, max = 250)
+    @Column(name = "full_name")
     private String name;
 
     /**
@@ -52,6 +55,7 @@ public class ActioUser {
     @Size(min = 9, max = 9, message = "NIF must contain 9 digits")
     @Pattern(regexp = "\\d{9}", message = "Invalid NIF")
     @NotNull(message = "A valid NIF is required")
+    @Column(name = "nif", unique = true)
     private String nif;
 
     /**
@@ -60,15 +64,17 @@ public class ActioUser {
      */
     @NotNull(message = "Date of birth is required")
     @Adult()
+    @Column(name = "date_of_birth")
     private LocalDate date_of_birth;
 
     /**
      * Email address used for authentication and identification.
      * Must be in valid format and unique across users.
      */
-    @Column(unique = true)
+
     @NotNull(message = "Email address is required")
     @Email(message = "Invalid email address")
+    @Column(name = "email", unique = true)
     private String email;
 
     /**
@@ -77,12 +83,11 @@ public class ActioUser {
      */
     @NotNull(message = "Password is required")
     @Length(min = 9, message = "Password must be at least 9 characters long")
+    @Column(name = "user_password")
     private String password;
 
-    /**
-     * Role assigned to the user for access control and authorization.
-     */
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToOne
+    @JoinColumn(name = "role_code")
+    private UserRole userRole;
 
 }
