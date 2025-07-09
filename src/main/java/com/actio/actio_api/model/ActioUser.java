@@ -90,4 +90,8 @@ public class ActioUser {
     @JoinColumn(name = "role_code")
     private UserRole userRole;
 
+
+    @OneToOne(mappedBy = "actioUser")
+    private Account account;
+
 }
