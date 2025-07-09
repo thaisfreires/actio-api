@@ -18,7 +18,5 @@ public class UserRole {
     @Column(name = "role_description")
     private String roleDescription;
 
-    @OneToMany(mappedBy = "userRole")
-    private List<ActioUser> users;
 
 }
