@@ -1,6 +1,5 @@
 package com.actio.actio_api.service;
 
-import com.actio.actio_api.enums.Role;
 import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.UserRole;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
@@ -54,7 +53,7 @@ public class ActioUserService {
             throw new FieldValidationException(errors);
         }
 
-        ActioUser newClient = requestToActioUser(request, Role.CLIENT);
+        ActioUser newClient = requestToActioUser(request);
             return actioUserToResponse(repository.save(newClient));
     }
 
@@ -63,11 +62,11 @@ public class ActioUserService {
      * encoding the password and setting the specified role.
      *
      * @param request the user registration data
-     * @param role the role to assign to the new user
      * @return the corresponding {@link ActioUser} entity ready for persistence
      */
-    private ActioUser requestToActioUser(UserRegistrationRequest request, Role role) {
+    private ActioUser requestToActioUser(UserRegistrationRequest request) {
 
+        // CLIENT
         UserRole userRole = userRoleRepository.findById(1).orElseThrow();
 
         return ActioUser.builder()
