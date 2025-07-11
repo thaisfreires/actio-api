@@ -1,8 +1,10 @@
 package com.actio.actio_api.controller;
 
+import com.actio.actio_api.model.UserProfile;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
 import com.actio.actio_api.service.UserProfileService;
+import com.actio.actio_api.dto.UserProfileDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -46,4 +48,27 @@ public class UserProfileController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+
+    @GetMapping(value = "/{id}", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<?> getProfile(@PathVariable Long id) {
+        try {
+            System.out.println("#### CONTROLER ");
+            UserProfileDTO dto = service.getProfileById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
+            //return ResponseEntity.ok(dto);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProfile(@PathVariable Long id, @Valid @RequestBody UserProfileDTO dto) {
+        try {
+            service.updateProfile(id, dto);
+            return ResponseEntity.ok("User profile updated successfully");
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+
 }

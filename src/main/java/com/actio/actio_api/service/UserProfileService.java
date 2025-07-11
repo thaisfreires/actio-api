@@ -1,5 +1,6 @@
 package com.actio.actio_api.service;
 
+import com.actio.actio_api.dto.UserProfileDTO;
 import com.actio.actio_api.enums.Role;
 import com.actio.actio_api.model.UserProfile;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
@@ -64,6 +65,8 @@ public class UserProfileService {
      * @return the corresponding {@link UserProfile} entity ready for persistence
      */
     private UserProfile requestToUserProfile(UserRegistrationRequest request, Role role) {
+        System.out.println("####  requestToUserProfile");
+
         return UserProfile.builder()
                 .name(request.getName())
                 .nif(request.getNif())
@@ -86,6 +89,36 @@ public class UserProfileService {
                 .email(userProfile.getEmail())
                 .id(userProfile.getId())
                 .build();
+    }
+
+    public UserProfileDTO getProfileById(Long id) {
+        System.out.println("#### SERVICE ");
+        UserProfile user = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        System.out.println("###  " + user.getEmail() + " " + user.getNif());
+
+        return toDto(user);
+    }
+
+    public void updateProfile(Long id, UserProfileDTO dto) {
+        UserProfile user = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        user.setName(dto.getFullName());
+        user.setNif(dto.getNif());
+        user.setDate_of_birth(dto.getBirthDate());
+        user.setEmail(dto.getEmail());
+
+        repository.save(user);
+    }
+
+    private UserProfileDTO toDto(UserProfile user) {
+        UserProfileDTO dto = new UserProfileDTO();
+        dto.setFullName(user.getName());
+        dto.setNif(user.getNif());
+        dto.setBirthDate(user.getDate_of_birth());
+        dto.setEmail(user.getEmail());
+        return dto;
     }
 
 }
