@@ -1,25 +1,25 @@
 package com.actio.actio_api.repository;
 
-import com.actio.actio_api.model.UserProfile;
+import com.actio.actio_api.model.ActioUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 /**
- * Repository interface for managing {@link UserProfile} entities.
+ * Repository interface for managing {@link ActioUser} entities.
  *
  * Extends {@link JpaRepository} to provide standard CRUD operations.
  * Includes additional query methods to support user authentication and validation workflows,
  * such as checking for email and NIF uniqueness.
  */
 @Repository
-public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
+public interface ActioUserRepository extends JpaRepository<ActioUser, Long> {
 
 
-    Optional<UserProfile> findByEmail(String name);
+    Optional<ActioUser> findByEmail(String name);
 
-    boolean existsUserProfileByEmail(String email);
+    boolean existsActioUserByEmail(String email);
 
-    boolean existsUserProfileByNif(String nif);
+    boolean existsActioUserByNif(String nif);
 }
