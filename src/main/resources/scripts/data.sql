@@ -9,8 +9,8 @@ INSERT INTO stock (stock_name) VALUES
 
 INSERT INTO actio_user (full_name, nif, date_of_birth, email, user_password, role_code) VALUES
                                                                                             ('Alice Pereira', '123456789', '1990-05-10', 'alice@teste.com', '$2a$10$EwXVLrD4UsyBO8TGd37gUuSdvfaLEs7iUEdGRXxNvyUSCl/S0kY3S', 2),
-                                                                                            ('Bruno Costa', '987654321', '1985-11-22', 'bruno@teste.com', 'a$10$CdECcS6Gk5QveJoA9LgZ6OH4qi5qF3RqhHxGs3xxLNhlQ8eF5S5I.', 2),
-                                                                                            ('Carla Silva', '456789123', '1992-02-15', 'carla@teste.com', 'a$10$IgIQNd5ny4QQf63TjKkEWekQdDi3kcdqmgtwrpgKTjKMMcOQVc67S', 2);
+                                                                                            ('Bruno Costa', '987654321', '1985-11-22', 'bruno@teste.com', '$2a$10$JB3/DjFSBxsUo3U4lxfI8.7Jn./DqBcRm9gJvoM55UW.Rc7Gz7fH6', 2),
+                                                                                            ('Carla Silva', '456789123', '1992-02-15', 'carla@teste.com', '$2a$10$8LYnWmdPCDGqb0I./rTIjes51wsrj9xOVRaK3mBOIKV/wtvnIcHjC', 2);
 
 INSERT INTO account (id_user, current_balance, status_code) VALUES
                                                                 (1, 10000.00, 1),
