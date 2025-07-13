@@ -53,6 +53,7 @@ public class MovementService {
      * @return movement
      */
     public Movement withdrawal(ActioUser user, MovementRequest request) {
+
         Account account = getActiveAccount(user);
 
         if (account.getCurrentBalance().compareTo(request.getAmount()) < 0) {
@@ -64,6 +65,7 @@ public class MovementService {
 
         Movement movement = Movement.builder()
                 .account(account)
+                .amount(request.getAmount())
                 .movementType(rescueType)
                 .movementDateTime(LocalDateTime.now())
                 .build();
@@ -95,7 +97,7 @@ public class MovementService {
      * @return active account
      */
     private Account getActiveAccount(ActioUser user) {
-        Account account = accountRepository.findByUser(user)
+        Account account = accountRepository.findByActioUser(user)
                 .orElseThrow(() -> new RuntimeException("Account not found for user " + user.getEmail()));
 
         AccountStatus activeStatus = accountStatusRepository.findByStatusDescription("ACTIVE")
