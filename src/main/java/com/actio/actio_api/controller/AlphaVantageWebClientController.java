@@ -24,7 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/stocks")
 @RequiredArgsConstructor
-public class StockController {
+public class AlphaVantageWebClientController {
 
     private final AlphaVantageWebClientService service;
 
