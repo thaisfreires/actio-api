@@ -2,6 +2,7 @@ package com.actio.actio_api.service;
 
 import com.actio.actio_api.model.*;
 import com.actio.actio_api.model.request.MovementRequest;
+import com.actio.actio_api.model.response.MovementResponse;
 import com.actio.actio_api.repository.*;
 import com.actio.actio_api.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class MovementService {
      * @param request credentials needed for the transation
      * @return movement
      */
-    public Movement deposit(ActioUser user, MovementRequest request) {
+    public MovementResponse deposit(ActioUser user, MovementRequest request) {
 
         Account account = getActiveAccount(user);
 
@@ -43,7 +44,14 @@ public class MovementService {
                 .movementType(depositType)
                 .movementDateTime(LocalDateTime.now())
                 .build();
-        return movementRepository.save(movement);
+        Movement saved_movement = movementRepository.save(movement);
+
+        return new MovementResponse().builder()
+                .id(saved_movement.getId())
+                .amount(saved_movement.getAmount())
+                .type(saved_movement.getMovementType().getTypeDescription())
+                .dateTime(saved_movement.getMovementDateTime())
+                .build();
     }
 
     /**
@@ -52,7 +60,7 @@ public class MovementService {
      * @param request credentials needed for the transation
      * @return movement
      */
-    public Movement withdrawal(ActioUser user, MovementRequest request) {
+    public MovementResponse withdrawal(ActioUser user, MovementRequest request) {
 
         Account account = getActiveAccount(user);
 
@@ -69,7 +77,14 @@ public class MovementService {
                 .movementType(rescueType)
                 .movementDateTime(LocalDateTime.now())
                 .build();
-        return movementRepository.save(movement);
+        Movement saved_withdrawal = movementRepository.save(movement);
+
+        return new MovementResponse().builder()
+                .id(saved_withdrawal.getId())
+                .amount(saved_withdrawal.getAmount())
+                .type(saved_withdrawal.getMovementType().getTypeDescription())
+                .dateTime(saved_withdrawal.getMovementDateTime())
+                .build();
     }
 
     /**
