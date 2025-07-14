@@ -8,6 +8,8 @@ import com.actio.actio_api.repository.ActioUserRepository;
 import com.actio.actio_api.repository.UserRoleRepository;
 import com.actio.actio_api.validation.FieldValidationException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -91,6 +93,17 @@ public class ActioUserService {
                 .email(actioUser.getEmail())
                 .id(actioUser.getId())
                 .build();
+    }
+
+    /**
+     * Retrieves the authenticated user from the SecurityContext using their JWT token.
+     *
+     * @return the authenticated ActioUser
+     */
+    public ActioUser getAuthenticatedUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
 
 }

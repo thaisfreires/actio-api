@@ -4,19 +4,12 @@ import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.Movement;
 import com.actio.actio_api.model.request.MovementRequest;
 import com.actio.actio_api.model.response.MovementResponse;
-import com.actio.actio_api.repository.ActioUserRepository;
-import com.actio.actio_api.security.JwtAuthorizationFilter;
-import com.actio.actio_api.security.JwtUtil;
+import com.actio.actio_api.service.ActioUserService;
 import com.actio.actio_api.service.MovementService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovementController {
     private final MovementService  movementService;
-    private final ActioUserRepository actioUserRepository;
-    private final JwtUtil jwtUtil;
+    private final ActioUserService actioUserService;
 
     /**
      * Allows a user with CLIENT role to deposit funds into their active account.
@@ -39,7 +31,7 @@ public class MovementController {
     public ResponseEntity<?> deposit (@RequestBody MovementRequest movementRequest){
 
         try{
-            ActioUser user = getAuthenticatedUser();
+            ActioUser user = actioUserService.getAuthenticatedUser();
             MovementResponse response = movementService.deposit(user, movementRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }catch (Exception e){
@@ -57,7 +49,7 @@ public class MovementController {
     @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<?> rescue(@RequestBody MovementRequest movementRequest) {
         try{
-            ActioUser user = getAuthenticatedUser();
+            ActioUser user = actioUserService.getAuthenticatedUser();
             MovementResponse response =movementService.withdrawal(user, movementRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }catch (Exception e){
@@ -72,19 +64,8 @@ public class MovementController {
     @GetMapping("/history")
     @PreAuthorize("hasAnyRole('CLIENT', 'ADMIN')")
     public ResponseEntity<List<Movement>> getMovements() {
-        ActioUser user = getAuthenticatedUser();
+        ActioUser user = actioUserService.getAuthenticatedUser();
         List<Movement> history = movementService.getHistory(user);
         return ResponseEntity.ok(history);
-    }
-
-    /**
-     * Retrieves the authenticated user from the SecurityContext using their JWT token.
-     *
-     * @return the authenticated ActioUser
-     */
-    public ActioUser getAuthenticatedUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return actioUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
     }
 }
