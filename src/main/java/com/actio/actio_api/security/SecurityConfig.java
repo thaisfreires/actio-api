@@ -103,6 +103,8 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/api/test/relations").permitAll()
+                        .requestMatchers("/api/test/buy-hardcoded").permitAll()
                         .requestMatchers("/users/save").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/stocks/**").permitAll()
