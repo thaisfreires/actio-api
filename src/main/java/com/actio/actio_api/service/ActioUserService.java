@@ -4,6 +4,7 @@ import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.UserRole;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
+import com.actio.actio_api.repository.AccountRepository;
 import com.actio.actio_api.repository.ActioUserRepository;
 import com.actio.actio_api.repository.UserRoleRepository;
 import com.actio.actio_api.validation.FieldValidationException;
@@ -33,6 +34,7 @@ public class ActioUserService {
     private final ActioUserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleRepository userRoleRepository;
+    private final AccountService accountService;
 
     /**
      * Registers a new user after validating business constraints such as uniqueness of email and NIF.
@@ -56,6 +58,7 @@ public class ActioUserService {
         }
 
         ActioUser newClient = requestToActioUser(request);
+        accountservice.save(newClient);
             return actioUserToResponse(repository.save(newClient));
     }
 
