@@ -1,11 +1,11 @@
 package com.actio.actio_api.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 
@@ -29,16 +29,25 @@ public class CurrencyCacheService {
     }
 
     /**
-     * Retrieves the USD to EUR exchange rate from the Alpha Vantage API.
-     * The result is cached using the cache named "usdToEurRate" to avoid repeated external calls.
+     * Retrieves and caches the USD to EUR exchange rate using the Alpha Vantage API.
      *
-     * If the rate cannot be extracted from the response, an IllegalStateException is thrown.
-     * The use of .block() is intentional here, as caching via @Cacheable requires synchronous return.
+     * This method makes a synchronous HTTP request to the Alpha Vantage endpoint
+     * using the provided API key and extracts the current exchange rate.
+     * If the response indicates an error (rate limit exceeded, invalid key)
+     * or contains an unexpected structure, a predefined fallback value is returned instead.
      *
-     * @param apiKey API key used for authentication with Alpha Vantage
-     * @return the exchange rate as a BigDecimal
+     * Caching is enabled via Spring's @Cacheable annotation, allowing reuse of responses
+     * across the application. Cached entries are keyed based on the API key value.
+     * Use of .block() is intentional to support synchronous caching requirements.
+     *
+     * Network errors, malformed responses, or missing exchange rate values
+     * are handled gracefully with logging and fallback logic.
+     *
+     * @param apiKey the Alpha Vantage API key to authenticate the request
+     * @return the USD to EUR exchange rate as a BigDecimal,
+     *         or a fallback value if the API request fails or rate is missing
      */
-    @Cacheable("usdToEurRate")
+    @Cacheable(value = "usdToEurRate")
     public BigDecimal getUsdToEurRate(String apiKey) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -52,11 +61,38 @@ public class CurrencyCacheService {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .map(json -> {
-                    String rawRate = json.path("Realtime Currency Exchange Rate").path("5. Exchange Rate").asText();
-                    if (rawRate == null || rawRate.isEmpty()) {
-                        throw new IllegalStateException("Exchange rate not found");
+                    System.out.println("[CurrencyCacheService] Alpha Vantage response:\n" + json.toPrettyString());
+
+                    if (json.has("Note") || json.has("Information")) {
+                        System.out.println("[CurrencyCacheService] Exchange rate NOT retrieved from API " +
+                                "(rate limit exceeded or invalid key)");
+                        return getFallbackRate();
                     }
-                    return new BigDecimal(rawRate);
-                }).block();
+
+                    JsonNode rateNode = json.path("Realtime Currency Exchange Rate").path("5. Exchange Rate");
+                    if (rateNode.isMissingNode() || rateNode.asText().isBlank()) {
+                        System.out.println("[CurrencyCacheService] Exchange rate field NOT found in API response");
+                        return getFallbackRate();
+                    }
+
+                    System.out.println("[CurrencyCacheService] Exchange rate retrieved successfully from API");
+                    return new BigDecimal(rateNode.asText());
+                })
+                .onErrorResume(ex -> {
+                    System.out.println("[CurrencyCacheService] Error during API call: " + ex.getMessage());
+                    System.out.println("[CurrencyCacheService] Falling back to local exchange rate");
+                    return Mono.just(getFallbackRate());
+                })
+                .block();
     }
+
+    /**
+     * Returns a fallback exchange rate when Alpha Vantage is unavailable or the response is invalid.
+     */
+    private BigDecimal getFallbackRate() {
+        BigDecimal fallback = BigDecimal.valueOf(0.90);
+        System.out.println("[CurrencyCacheService] Using fallback exchange rate: " + fallback);
+        return fallback;
+    }
+
 }
