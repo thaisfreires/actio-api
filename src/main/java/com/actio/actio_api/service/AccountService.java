@@ -4,6 +4,7 @@ import com.actio.actio_api.model.Account;
 import com.actio.actio_api.model.AccountStatus;
 import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.request.AccountRequest;
+import com.actio.actio_api.model.request.AccountStatusUpdateRequest;
 import com.actio.actio_api.model.response.AccountResponse;
 import com.actio.actio_api.repository.AccountRepository;
 import com.actio.actio_api.repository.AccountStatusRepository;
@@ -41,7 +42,8 @@ public class AccountService {
                 .currentBalance(saved.getCurrentBalance())
                 .build();
     }
-    public AccountResponse deleteAccount(ActioUser user, AccountRequest request) {
+
+    public AccountResponse deleteAccount(ActioUser user) {
         Account account = getActiveAccount(user);
 
         boolean hasItems = stockItemRepository.existsByAccount(account);
@@ -64,13 +66,17 @@ public class AccountService {
                 .currentBalance(updated.getCurrentBalance())
                 .build();
     }
-    public AccountResponse updateAccountStatus(AccountRequest request) {
+    public AccountResponse updateAccountStatus(AccountStatusUpdateRequest request) {
 
         Account account = accountRepository.findById(request.getAccountId())
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
-        AccountStatus newStatus = accountStatusRepository.findByStatusDescription((request.getStatusId()))
+        AccountStatus newStatus = accountStatusRepository.findByStatusDescription(request.getNewStatus())
                 .orElseThrow(() -> new RuntimeException("Invalid status ID"));
+
+        if (account.getStatus().getStatusDescription().equals("CANCELLED")) {
+            throw new RuntimeException("Cannot update a cancelled account");
+        }
 
         account.setStatus(newStatus);
         Account updated = accountRepository.save(account);
