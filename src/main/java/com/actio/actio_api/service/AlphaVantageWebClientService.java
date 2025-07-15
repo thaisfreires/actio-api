@@ -4,13 +4,17 @@ import com.actio.actio_api.model.Stock;
 import com.actio.actio_api.model.response.GetAlphaVantageStockResponse;
 import com.actio.actio_api.model.webclient.AlphaVantageResponse;
 import com.actio.actio_api.model.webclient.GlobalQuote;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -100,14 +104,20 @@ public class AlphaVantageWebClientService {
     }
 
     /**
-     * Queries the Alpha Vantage API for the latest stock quote for the given symbol.
+     * Attempts to retrieve the latest stock quote from the Alpha Vantage API for the given symbol.
      *
-     * The HTTP GET request returns a JSON payload, which is deserialized into an AlphaVantageResponse object.
-     * The GlobalQuote portion of the response is validated to ensure key fields are present.
-     * Any errors or malformed responses are returned as IllegalStateException.
+     * If the API call succeeds and returns a valid response, the result is returned directly.
+     * If the response is malformed or missing key fields (such as symbol or price), the service
+     * automatically switches to a fallback mechanism that reads pre-configured mock data from a file.
+     *
+     * This fallback also activates if the API call fails due to exceptions such as rate limits
+     * or connectivity issues.
+     *
+     * If no matching symbol is found in the mock file, the method uses the default entry and
+     * replaces its symbol field with the originally requested symbol.
      *
      * @param symbol the stock ticker to retrieve
-     * @return Mono containing the valid GlobalQuote response, or an error
+     * @return Mono containing the resolved GlobalQuote from live data or fallback
      */
     private Mono<GlobalQuote> fetchStockQuote(String symbol) {
         return webClient.get()
@@ -130,7 +140,8 @@ public class AlphaVantageWebClientService {
                 })
                 .onErrorResume(ex -> {
                     System.out.println("[AlphaVantageWebClientService] fetchStockQuote failed: " + ex.getMessage());
-                    return Mono.error(new IllegalStateException("Failed to fetch stock quote: " + ex.getMessage()));
+                    GlobalQuote fallbackQuote = loadMockQuote(symbol);
+                    return Mono.just(fallbackQuote);
                 });
     }
 
@@ -197,6 +208,72 @@ public class AlphaVantageWebClientService {
                 .symbol(quote.getSymbol())
                 .price(quote.getPrice())
                 .changePercent(quote.getChangePercent())
+                .build();
+    }
+
+    /**
+     * Loads a mocked GlobalQuote from a local JSON file based on the provided symbol.
+     *
+     * The method scans a file containing simulated Alpha Vantage API responses and tries to
+     * find a quote that matches the requested symbol. If a match is found, it is parsed and returned.
+     *
+     * If no exact match is found, the method looks for the "DEFAULT" entry, modifies its symbol
+     * field to reflect the requested value, and returns that instead.
+     *
+     * @param symbol the stock ticker symbol being searched
+     * @return GlobalQuote object loaded from fallback data
+     */
+    private GlobalQuote loadMockQuote(String symbol) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            InputStream inputStream = new FileInputStream("src/main/resources/mock/mock-stock-responses.json");
+            JsonNode root = mapper.readTree(inputStream);
+
+            for (JsonNode node : root) {
+                JsonNode quoteNode = node.path("Global Quote");
+                String mockSymbol = quoteNode.path("01. symbol").asText();
+                if (symbol.equalsIgnoreCase(mockSymbol)) {
+                    return parseMockGlobalQuote(quoteNode);
+                }
+            }
+
+            for (JsonNode node : root) {
+                JsonNode quoteNode = node.path("Global Quote");
+                if ("DEFAULT".equalsIgnoreCase(quoteNode.path("01. symbol").asText())) {
+                    ObjectNode defaultQuote = quoteNode.deepCopy();
+                    defaultQuote.put("01. symbol", symbol);
+                    return parseMockGlobalQuote(defaultQuote);
+                }
+            }
+            System.out.println("[AlphaVantageWebClientServie] loadMockQuote failed: No data available for symbol: " + symbol);
+            throw new RuntimeException("[loadMockQuote] No data available for symbol: " + symbol);
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to load fallback data: " + ex.getMessage());
+        }
+    }
+
+    /**
+     * Parses a JSON node representing a single Alpha Vantage-style quote into a GlobalQuote object.
+     *
+     * Each field is extracted and converted to its respective data type, such as BigDecimal
+     * for monetary values and BigInteger for volume. This method assumes the node structure
+     * closely matches the output format of Alpha Vantage's GLOBAL_QUOTE function.
+     *
+     * @param node the JSON node containing the quote data
+     * @return parsed GlobalQuote instance
+     */
+    private GlobalQuote parseMockGlobalQuote(JsonNode node) {
+        return GlobalQuote.builder()
+                .symbol(node.path("01. symbol").asText())
+                .open(new BigDecimal(node.path("02. open").asText()))
+                .high(new BigDecimal(node.path("03. high").asText()))
+                .low(new BigDecimal(node.path("04. low").asText()))
+                .price(new BigDecimal(node.path("05. price").asText()))
+                .volume(new BigInteger(node.path("06. volume").asText()))
+                .latestTradingDay(node.path("07. latest trading day").asText())
+                .previousClose(new BigDecimal(node.path("08. previous close").asText()))
+                .change(new BigDecimal(node.path("09. change").asText()))
+                .changePercent(node.path("10. change percent").asText())
                 .build();
     }
 
