@@ -78,10 +78,10 @@ public class AlphaVantageWebClientService {
                                 .map(stock -> buildResponse(quote, stock))
                         )
                 )
-                .onErrorResume(ex ->
-                        Mono.error(
-                        new IllegalStateException("Unable to process stock information: " + ex.getMessage())
-                ));
+                .onErrorResume(ex -> {
+                    System.out.println("[AlphaVantageWebClientService] Failed to process stock for symbol '" + symbol + "': " + ex.getMessage());
+                    return Mono.error(new IllegalStateException("Unable to process stock information."));
+                });
     }
 
     /**
@@ -98,7 +98,7 @@ public class AlphaVantageWebClientService {
             return Mono.just(rate);
         } catch (Exception ex) {
             System.out.println("[AlphaVantageWebClientService]: fetchExchangeRate failed: " + ex.getMessage());
-            return Mono.error(new IllegalStateException("Failed to retrieve exchange rate: " + ex.getMessage()));
+            return Mono.error(new IllegalStateException("Failed to retrieve exchange rate."));
         }
 
     }
@@ -188,7 +188,7 @@ public class AlphaVantageWebClientService {
             return Mono.just(stock);
         } catch (Exception ex) {
             System.out.println("[AlphaVantageWebClientService] resolveLocalStock failed: " + ex.getMessage());
-            return Mono.error(new IllegalStateException("Failed to access local stock data: " + ex.getMessage()));
+            return Mono.error(new IllegalStateException("Failed to access local stock data."));
         }
     }
 
@@ -248,7 +248,8 @@ public class AlphaVantageWebClientService {
             System.out.println("[AlphaVantageWebClientServie] loadMockQuote failed: No data available for symbol: " + symbol);
             throw new RuntimeException("[loadMockQuote] No data available for symbol: " + symbol);
         } catch (Exception ex) {
-            throw new IllegalStateException("Failed to load fallback data: " + ex.getMessage());
+            System.out.println("[AlphaVantageWebClientServie] loadMockQuote failed: Failed to load fallback data: " + ex.getMessage());
+            throw new IllegalStateException("Failed to load fallback data." );
         }
     }
 
