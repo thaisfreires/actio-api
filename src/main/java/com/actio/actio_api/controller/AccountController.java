@@ -2,6 +2,7 @@ package com.actio.actio_api.controller;
 
 import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.request.AccountRequest;
+import com.actio.actio_api.model.request.AccountStatusUpdateRequest;
 import com.actio.actio_api.model.response.AccountResponse;
 import com.actio.actio_api.model.response.MovementResponse;
 import com.actio.actio_api.repository.ActioUserRepository;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/accounts")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class AccountController {
 
@@ -24,24 +26,25 @@ public class AccountController {
     private final JwtUtil jwtUtil;
     private final ActioUserService actioUserService;
 
-    @PostMapping("/cancel")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<?> deleteAccount(@RequestBody AccountRequest request) {
+    public ResponseEntity<?> deleteAccount() {
         try {
             ActioUser user = actioUserService.getAuthenticatedUser();
-            AccountResponse response = accountService.deleteAccount(user, request);
+            AccountResponse response = accountService.deleteAccount(user);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to delete account");
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Failed to delete account" + e.getMessage());
         }
     }
-    @PutMapping("/{id}/status")
+
+
+    @PutMapping("/status")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> updateStatus(@PathVariable Long id,
-                                                        @RequestBody AccountRequest request) {
+    public ResponseEntity<?> updateStatus(@RequestBody AccountStatusUpdateRequest request) {
         try{
-            ActioUser user = actioUserService.getAuthenticatedUser();
-            AccountResponse response = accountService.updateAccountStatus(id, request);
+            AccountResponse response = accountService.updateAccountStatus(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }  catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to update account");
