@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StockItemService {
 
-    private StockItemRepository stockItemRepository;
+    private final StockItemRepository stockItemRepository;
 
     /**
      * Retrieves the quantity of stock units held by a specific account for a given stock.
