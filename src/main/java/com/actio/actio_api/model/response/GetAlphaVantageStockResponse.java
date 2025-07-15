@@ -24,11 +24,6 @@ public class GetAlphaVantageStockResponse {
     private Long stockId;
 
     /**
-     * Company name.
-     */
-    private String company;
-
-    /**
      * Stock symbol (ticker).
      */
     private String symbol;
