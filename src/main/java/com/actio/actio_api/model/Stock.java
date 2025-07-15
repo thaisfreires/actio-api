@@ -1,7 +1,10 @@
 package com.actio.actio_api.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -18,6 +21,9 @@ import java.util.List;
  */
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "stock")
 public class Stock {
 
@@ -34,7 +40,7 @@ public class Stock {
      * Designation of the stock.
      * May represent the company name, brand, or market ticker symbol.
      */
-    @Column(name = "stock_name")
+    @Column(name = "stock_name", unique = true)
     private String stockName;
 
     /**
