@@ -1,0 +1,100 @@
+[
+  {
+    "Global Quote": {
+      "01. symbol": "BN.PA",
+      "02. open": "52.10",
+      "03. high": "52.95",
+      "04. low": "51.70",
+      "05. price": "52.60",
+      "06. volume": "74900",
+      "07. latest trading day": "2024-07-15",
+      "08. previous close": "52.10",
+      "09. change": "0.50",
+      "10. change percent": "0.96%"
+    }
+  },
+  {
+    "Global Quote": {
+      "01. symbol": "OR.PA",
+      "02. open": "421.00",
+      "03. high": "425.30",
+      "04. low": "419.20",
+      "05. price": "423.80",
+      "06. volume": "98010",
+      "07. latest trading day": "2024-07-15",
+      "08. previous close": "421.00",
+      "09. change": "2.80",
+      "10. change percent": "0.67%"
+    }
+  },
+  {
+    "Global Quote": {
+      "01. symbol": "MC.PA",
+      "02. open": "760.00",
+      "03. high": "765.00",
+      "04. low": "755.00",
+      "05. price": "762.40",
+      "06. volume": "185000",
+      "07. latest trading day": "2024-07-15",
+      "08. previous close": "760.00",
+      "09. change": "2.40",
+      "10. change percent": "0.32%"
+    }
+  },
+  {
+    "Global Quote": {
+      "01. symbol": "EDP.LS",
+      "02. open": "3.93",
+      "03. high": "3.98",
+      "04. low": "3.91",
+      "05. price": "3.96",
+      "06. volume": "64500",
+      "07. latest trading day": "2024-07-15",
+      "08. previous close": "3.93",
+      "09. change": "0.03",
+      "10. change percent": "0.76%"
+    }
+  },
+  {
+    "Global Quote": {
+      "01. symbol": "GALP.LS",
+      "02. open": "11.20",
+      "03. high": "11.38",
+      "04. low": "11.10",
+      "05. price": "11.29",
+      "06. volume": "51200",
+      "07. latest trading day": "2024-07-15",
+      "08. previous close": "11.20",
+      "09. change": "0.09",
+      "10. change percent": "0.80%"
+    }
+  },
+  {
+    "Global Quote": {
+      "01. symbol": "NOS.LS",
+      "02. open": "4.31",
+      "03. high": "4.38",
+      "04. low": "4.30",
+      "05. price": "4.35",
+      "06. volume": "31000",
+      "07. latest trading day": "2024-07-15",
+      "08. previous close": "4.31",
+      "09. change": "0.04",
+      "10. change percent": "0.93%"
+    }
+  },
+  {
+    "Global Quote": {
+      "01. symbol": "DEFAULT",
+      "02. open": "10.00",
+      "03. high": "10.50",
+      "04. low": "9.80",
+      "05. price": "10.15",
+      "06. volume": "100000",
+      "07. latest trading day": "2024-07-15",
+      "08. previous close": "10.00",
+      "09. change": "0.15",
+      "10. change percent": "1.50%"
+    }
+  }
+]
