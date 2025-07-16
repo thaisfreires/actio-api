@@ -58,8 +58,9 @@ public class ActioUserService {
         }
 
         ActioUser newClient = requestToActioUser(request);
-        accountservice.save(newClient);
-            return actioUserToResponse(repository.save(newClient));
+        ActioUser savedUser = repository.save(newClient);
+        AccountResponse accountResponse = accountService.save(savedUser);
+            return actioUserToResponse(savedUser);
     }
 
     /**
