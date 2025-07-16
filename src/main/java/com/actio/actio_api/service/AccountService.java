@@ -7,7 +7,6 @@ import com.actio.actio_api.model.request.AccountStatusUpdateRequest;
 import com.actio.actio_api.model.response.AccountResponse;
 import com.actio.actio_api.repository.AccountRepository;
 import com.actio.actio_api.repository.AccountStatusRepository;
-import com.actio.actio_api.repository.StockItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +17,22 @@ import java.math.BigDecimal;
 public class AccountService {
 
     private final AccountRepository accountRepository;
-    private final StockItemRepository stockItemRepository;
     private final AccountStatusRepository accountStatusRepository;
+    private final StockItemService stockItemService;
 
+    /**
+     * Creates and saves a new account for the given user with ACTIVE status and zero balance.
+     *
+     * @param user The user for whom the account is being created.
+     * @return AccountResponse containing the new account's details.
+     */
     public AccountResponse save(ActioUser user) {
-        AccountStatus defaultStatus = accountStatusRepository.findByStatusDescription("ACTIVE")
-                .orElseThrow(() -> new RuntimeException("AccountStatus ACTIVE not found"));
-
         Account account = new Account();
         account.setActioUser(user);
-        account.setStatus(defaultStatus);
+
+        AccountStatus defaultStatus = new AccountStatus();
+        defaultStatus.setStatusDescription("ACTIVE");
+
         account.setCurrentBalance(BigDecimal.ZERO);
 
         Account saved = accountRepository.save(account);
@@ -40,20 +45,27 @@ public class AccountService {
                 .build();
     }
 
+    /**
+     * Deletes the user's active account if it has no stock items and zero balance.
+     * The account status is changed to CLOSED.
+     *
+     * @param user The user requesting account deletion.
+     * @return AccountResponse with updated account information.
+     * @throws RuntimeException if the account has stock items, non-zero balance, or is not ACTIVE.
+     */
     public AccountResponse deleteAccount(ActioUser user) {
         Account account = getActiveAccount(user);
 
-        boolean hasItems = stockItemRepository.existsByAccount(account);
+        boolean hasItems = stockItemService.hasStockItemsForAccount(account);
         if (hasItems) throw new RuntimeException("Account has active stock items");
 
         if (account.getCurrentBalance().compareTo(BigDecimal.ZERO) != 0) {
             throw new RuntimeException("Account balance must be zero");
         }
 
-        AccountStatus closed = accountStatusRepository.findByStatusDescription("CLOSED")
-                .orElseThrow(() -> new RuntimeException("AccountStatus CANCELLED not found"));
-        account.setStatus(closed);
-
+        AccountStatus closedStatus = new AccountStatus();
+        closedStatus.setStatusDescription("CLOSED");
+        account.setStatus(closedStatus);
         Account updated = accountRepository.save(account);
 
         return AccountResponse.builder()
@@ -63,19 +75,28 @@ public class AccountService {
                 .currentBalance(updated.getCurrentBalance())
                 .build();
     }
+
+    /**
+     * Updates the status of an account based on the given request.
+     *
+     * @param request The request containing account ID and the new status to apply.
+     * @return AccountResponse with updated account status.
+     * @throws RuntimeException if account doesn't exist, the status is invalid,
+     *                          or the account is already CLOSED.
+     */
     public AccountResponse updateAccountStatus(AccountStatusUpdateRequest request) {
 
         Account account = accountRepository.findById(request.getAccountId())
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
-        AccountStatus newStatus = accountStatusRepository.findByStatusDescription(request.getNewStatus())
-                .orElseThrow(() -> new RuntimeException("Invalid status ID"));
-
-        if (account.getStatus().getStatusDescription().equals("CLOSED")) {
-            throw new RuntimeException("Cannot update a cancelled account");
+        if ("CLOSED".equals(account.getStatus().getStatusDescription())) {
+            throw new RuntimeException("Cannot update a closed account");
         }
 
+        AccountStatus newStatus = new AccountStatus();
+        newStatus.setStatusDescription(request.getNewStatus());
         account.setStatus(newStatus);
+
         Account updated = accountRepository.save(account);
 
         return AccountResponse.builder()
@@ -85,14 +106,19 @@ public class AccountService {
                 .currentBalance(updated.getCurrentBalance())
                 .build();
     }
+
+    /**
+     * Retrieves the user's active account.
+     *
+     * @param user The user whose active account is requested.
+     * @return The active Account object.
+     * @throws RuntimeException if the account does not exist or is not ACTIVE.
+     */
     private Account getActiveAccount(ActioUser user) {
         Account account = accountRepository.findByActioUser(user)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
-        AccountStatus active = accountStatusRepository.findByStatusDescription("ACTIVE")
-                .orElseThrow(() -> new RuntimeException("AccountStatus ACTIVE not found"));
-
-        if (!account.getStatus().equals(active)) {
+        if (!"ACTIVE".equals(account.getStatus().getStatusDescription())) {
             throw new RuntimeException("Account is not ACTIVE");
         }
 
