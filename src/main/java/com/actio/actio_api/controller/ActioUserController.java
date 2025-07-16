@@ -50,7 +50,13 @@ public class ActioUserController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
-
+    /**
+     * Endpoint to retrieve information about the authenticated user.
+     * Accessible by users with CLIENT or ADMIN roles.
+     *
+     * @return a {@link ResponseEntity} containing the user's name, email, role, and account ID if successful,
+     *         or a 400 Bad Request with an error message if an exception occurs.
+     */
     @GetMapping("/user-info")
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<?> getUserInfo() {
