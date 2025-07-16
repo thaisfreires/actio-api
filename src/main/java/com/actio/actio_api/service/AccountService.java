@@ -53,9 +53,9 @@ public class AccountService {
             throw new RuntimeException("Account balance must be zero");
         }
 
-        AccountStatus cancelled = accountStatusRepository.findByStatusDescription("CANCELLED")
+        AccountStatus closed = accountStatusRepository.findByStatusDescription("CLOSED")
                 .orElseThrow(() -> new RuntimeException("AccountStatus CANCELLED not found"));
-        account.setStatus(cancelled);
+        account.setStatus(closed);
 
         Account updated = accountRepository.save(account);
 
@@ -74,7 +74,7 @@ public class AccountService {
         AccountStatus newStatus = accountStatusRepository.findByStatusDescription(request.getNewStatus())
                 .orElseThrow(() -> new RuntimeException("Invalid status ID"));
 
-        if (account.getStatus().getStatusDescription().equals("CANCELLED")) {
+        if (account.getStatus().getStatusDescription().equals("CLOSED")) {
             throw new RuntimeException("Cannot update a cancelled account");
         }
 
