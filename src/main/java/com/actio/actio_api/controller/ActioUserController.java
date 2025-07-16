@@ -1,6 +1,9 @@
 package com.actio.actio_api.controller;
 
+import com.actio.actio_api.model.Account;
+import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
+import com.actio.actio_api.model.response.UserInfoResponse;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
 import com.actio.actio_api.service.ActioUserService;
 import jakarta.validation.Valid;
@@ -8,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -46,4 +50,27 @@ public class ActioUserController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+
+    @GetMapping("/user-info")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    public ResponseEntity<?> getUserInfo() {
+        try{
+            ActioUser user = service.getAuthenticatedUser();
+
+            Account account = user.getAccount();
+
+            UserInfoResponse response = UserInfoResponse.builder()
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .userRole(user.getUserRole().getRoleDescription())
+                    .accountId(account.getId())
+                    .build();
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to fetch user info");
+        }
+
+    }
+
 }
