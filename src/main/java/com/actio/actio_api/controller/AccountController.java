@@ -1,15 +1,10 @@
 package com.actio.actio_api.controller;
 
 import com.actio.actio_api.model.ActioUser;
-import com.actio.actio_api.model.request.AccountRequest;
 import com.actio.actio_api.model.request.AccountStatusUpdateRequest;
 import com.actio.actio_api.model.response.AccountResponse;
-import com.actio.actio_api.model.response.MovementResponse;
-import com.actio.actio_api.repository.ActioUserRepository;
-import com.actio.actio_api.security.JwtUtil;
 import com.actio.actio_api.service.AccountService;
 import com.actio.actio_api.service.ActioUserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final AccountService accountService;
-    private final JwtUtil jwtUtil;
     private final ActioUserService actioUserService;
 
     @DeleteMapping("/delete")
