@@ -3,14 +3,11 @@ package com.actio.actio_api.service;
 import com.actio.actio_api.model.Account;
 import com.actio.actio_api.model.AccountStatus;
 import com.actio.actio_api.model.ActioUser;
-import com.actio.actio_api.model.request.AccountRequest;
 import com.actio.actio_api.model.request.AccountStatusUpdateRequest;
 import com.actio.actio_api.model.response.AccountResponse;
 import com.actio.actio_api.repository.AccountRepository;
 import com.actio.actio_api.repository.AccountStatusRepository;
-import com.actio.actio_api.repository.ActioUserRepository;
 import com.actio.actio_api.repository.StockItemRepository;
-import com.actio.actio_api.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
