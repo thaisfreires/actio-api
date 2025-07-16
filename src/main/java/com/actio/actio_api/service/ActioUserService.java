@@ -33,7 +33,7 @@ public class ActioUserService {
     private final ActioUserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleRepository userRoleRepository;
-
+    private final AccountService accountService;
     /**
      * Registers a new user after validating business constraints such as uniqueness of email and NIF.
      *
@@ -56,7 +56,9 @@ public class ActioUserService {
         }
 
         ActioUser newClient = requestToActioUser(request);
-            return actioUserToResponse(repository.save(newClient));
+        ActioUser savedUser = repository.save(newClient);
+        AccountResponse accountResponse = accountService.save(savedUser);
+        return actioUserToResponse(savedUser);
     }
 
     /**
