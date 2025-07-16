@@ -108,6 +108,9 @@ public class SecurityConfig {
                         .requestMatchers("/users/save").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/stocks/**").permitAll()
+                        .requestMatchers("/transactions/buy").hasRole("CLIENT")
+                        .requestMatchers("/transactions/sell").hasRole("CLIENT")
+                        .requestMatchers("/transactions/getAll").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

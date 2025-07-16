@@ -7,6 +7,7 @@ import org.hibernate.NonUniqueObjectException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Service class responsible for managing stock-related operations.
@@ -35,6 +36,11 @@ public class StockService {
             throw new NonUniqueObjectException(errorMessage, String.valueOf(stocks.size()));
         }
         return stocks.get(0);
+    }
+
+    public Stock findByStockId(Long id){
+        return stockRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("Stock not found, id: " + id));
     }
 
     /**

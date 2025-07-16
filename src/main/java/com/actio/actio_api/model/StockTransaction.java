@@ -1,7 +1,7 @@
 package com.actio.actio_api.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,7 +18,13 @@ import java.time.LocalDateTime;
  * updates the associated StockItem quantity to reflect the new holdings,
  * ensuring accurate portfolio management.
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(exclude = {"account", "stock", "transactionType"})
+@ToString(exclude = {"account", "stock", "transactionType"})
 @Entity
 @Table(name = "stock_transaction")
 public class StockTransaction {

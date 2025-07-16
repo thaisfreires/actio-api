@@ -6,10 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
@@ -24,11 +21,14 @@ import java.time.LocalDate;
  * such as age and document format. This entity is mapped using JPA and participates in
  * multiple relationships (role and account).
  */
-@Data
-@Entity
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@ToString(exclude = "account")
+@EqualsAndHashCode(exclude = "account")
+@Entity
 @Table(name = "actio_user")
 public class ActioUser {
 
@@ -103,5 +103,4 @@ public class ActioUser {
      */
     @OneToOne(mappedBy = "actioUser")
     private Account account;
-
 }
