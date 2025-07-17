@@ -1,7 +1,5 @@
 package com.actio.actio_api.controller;
 
-import com.actio.actio_api.model.Account;
-import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
 import com.actio.actio_api.model.response.UserInfoResponse;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
@@ -61,7 +59,7 @@ public class ActioUserController {
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<?> getUserInfo() {
         try{
-            UserInfoResponse response = service.UserInfo();
+            UserInfoResponse response = service.userInfo();
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
