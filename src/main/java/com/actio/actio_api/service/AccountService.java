@@ -31,6 +31,7 @@ public class AccountService {
         Account account = new Account();
         account.setActioUser(user);
         account.setStatus(accountStatusRepository.findByStatusDescription("ACTIVE").orElseThrow(()-> new NoSuchElementException("Status not found")));
+        account.setCurrentBalance(BigDecimal.valueOf(0));
 
         Account saved = accountRepository.save(account);
 
