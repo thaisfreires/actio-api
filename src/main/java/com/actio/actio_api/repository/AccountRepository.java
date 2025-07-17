@@ -7,7 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Repository interface for accessing and managing {@link Account} entities in the database.
+ */
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     Optional<Account> findByActioUser(ActioUser user);
+    Optional<Account> findById(Long accountId);
 }
