@@ -6,7 +6,6 @@ import com.actio.actio_api.model.UserRole;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
 import com.actio.actio_api.model.response.UserInfoResponse;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
-import com.actio.actio_api.repository.AccountRepository;
 import com.actio.actio_api.repository.ActioUserRepository;
 import com.actio.actio_api.repository.UserRoleRepository;
 import com.actio.actio_api.validation.FieldValidationException;
@@ -59,7 +58,7 @@ public class ActioUserService {
             throw new FieldValidationException(errors);
         }
 
-        ActioUser newClient = requestToActioUser(request);
+        ActioUser newClient = requestToActioUserClient(request);
         ActioUser savedUser = repository.save(newClient);
         AccountResponse accountResponse = accountService.save(savedUser);
             return actioUserToResponse(savedUser);
@@ -72,11 +71,10 @@ public class ActioUserService {
      * @param request the user registration data
      * @return the corresponding {@link ActioUser} entity ready for persistence
      */
-    private ActioUser requestToActioUser(UserRegistrationRequest request) {
+    private ActioUser requestToActioUserClient(UserRegistrationRequest request) {
 
         // CLIENT
-        UserRole userRole = userRoleRepository.findById(1).orElseThrow();
-
+        UserRole userRole = userRoleRepository.findByRoleDescription("CLIENT");
         return ActioUser.builder()
                 .name(request.getName())
                 .nif(request.getNif())
@@ -121,7 +119,6 @@ public class ActioUserService {
     public UserInfoResponse UserInfo(){
 
         ActioUser user = this.getAuthenticatedUser();
-
         Account account = user.getAccount();
 
         return UserInfoResponse.builder()
