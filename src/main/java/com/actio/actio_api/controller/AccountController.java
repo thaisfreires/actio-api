@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller responsible for handling account-related operations.
+ */
 @RestController
 @RequestMapping("/accounts")
 @CrossOrigin(origins = "*")
@@ -20,6 +23,12 @@ public class AccountController {
     private final AccountService accountService;
     private final ActioUserService actioUserService;
 
+    /**
+     * Deletes the authenticated user's account.
+     *
+     * @return ResponseEntity containing the account deletion response if successful,
+     *         or an error message if the operation fails.
+     */
     @DeleteMapping("/delete")
     @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<?> deleteAccount() {
@@ -33,7 +42,13 @@ public class AccountController {
         }
     }
 
-
+    /**
+     * Updates the status of a user account. Only accessible to users with ADMIN role.
+     *
+     * @param request the request object containing the account ID and the new status
+     * @return ResponseEntity containing the updated account response if successful,
+     *         or an error message if the operation fails.
+     */
     @PutMapping("/status")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateStatus(@RequestBody AccountStatusUpdateRequest request) {
