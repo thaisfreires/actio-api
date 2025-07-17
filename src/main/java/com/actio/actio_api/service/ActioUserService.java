@@ -4,6 +4,7 @@ import com.actio.actio_api.model.Account;
 import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.UserRole;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
+import com.actio.actio_api.model.response.AccountResponse;
 import com.actio.actio_api.model.response.UserInfoResponse;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
 import com.actio.actio_api.repository.ActioUserRepository;
@@ -116,10 +117,14 @@ public class ActioUserService {
      *
      * @return a {@link UserInfoResponse} DTO containing user and account details
      */
-    public UserInfoResponse UserInfo(){
+    public UserInfoResponse userInfo(){
 
         ActioUser user = this.getAuthenticatedUser();
         Account account = user.getAccount();
+
+        System.out.println("USER: " + user.getName() + " " + user.getEmail() + " " + user.getUserRole().getRoleDescription());
+        System.out.println("ACCOUNT: " + account.getId());
+
 
         return UserInfoResponse.builder()
                 .name(user.getName())
