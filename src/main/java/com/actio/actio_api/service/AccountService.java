@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -29,11 +30,7 @@ public class AccountService {
     public AccountResponse save(ActioUser user) {
         Account account = new Account();
         account.setActioUser(user);
-
-        AccountStatus defaultStatus = new AccountStatus();
-        defaultStatus.setStatusDescription("ACTIVE");
-
-        account.setCurrentBalance(BigDecimal.ZERO);
+        account.setStatus(accountStatusRepository.findByStatusDescription("ACTIVE").orElseThrow(()-> new NoSuchElementException("Status not found")));
 
         Account saved = accountRepository.save(account);
 
@@ -56,16 +53,17 @@ public class AccountService {
     public AccountResponse deleteAccount(ActioUser user) {
         Account account = getActiveAccount(user);
 
-        boolean hasItems = stockItemService.hasStockItemsForAccount(account);
+        boolean hasItems = stockItemService.hasActiveStockItemsForAccount(account);
         if (hasItems) throw new RuntimeException("Account has active stock items");
 
         if (account.getCurrentBalance().compareTo(BigDecimal.ZERO) != 0) {
             throw new RuntimeException("Account balance must be zero");
         }
 
-        AccountStatus closedStatus = new AccountStatus();
-        closedStatus.setStatusDescription("CLOSED");
-        account.setStatus(closedStatus);
+        account.setStatus(accountStatusRepository
+                .findByStatusDescription("CLOSED")
+                .orElseThrow(()-> new NoSuchElementException("Status not found")));
+
         Account updated = accountRepository.save(account);
 
         return AccountResponse.builder()

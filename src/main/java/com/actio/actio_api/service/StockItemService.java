@@ -16,7 +16,10 @@ public class StockItemService {
      * @param account The account to check for associated StockItems.
      * @return true if there is at least one StockItem for the account; false otherwise.
      */
-    public boolean hasStockItemsForAccount(Account account) {
-        return stockItemRepository.existsByAccount(account);
+    public boolean hasActiveStockItemsForAccount(Account account) {
+        return stockItemRepository
+                .findByAccountId(account.getId())
+                .stream()
+                .anyMatch(s -> s.getQuantity() > 0);
     }
 }
