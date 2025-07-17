@@ -61,16 +61,7 @@ public class ActioUserController {
     @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
     public ResponseEntity<?> getUserInfo() {
         try{
-            ActioUser user = service.getAuthenticatedUser();
-
-            Account account = user.getAccount();
-
-            UserInfoResponse response = UserInfoResponse.builder()
-                    .name(user.getName())
-                    .email(user.getEmail())
-                    .userRole(user.getUserRole().getRoleDescription())
-                    .accountId(account.getId())
-                    .build();
+            UserInfoResponse response = service.UserInfo();
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {

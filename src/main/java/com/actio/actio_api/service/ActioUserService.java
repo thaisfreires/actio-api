@@ -1,8 +1,10 @@
 package com.actio.actio_api.service;
 
+import com.actio.actio_api.model.Account;
 import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.UserRole;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
+import com.actio.actio_api.model.response.UserInfoResponse;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
 import com.actio.actio_api.repository.AccountRepository;
 import com.actio.actio_api.repository.ActioUserRepository;
@@ -108,6 +110,26 @@ public class ActioUserService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return repository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+    }
+
+    /**
+     * Retrieves information about the currently authenticated user,
+     * including their name, email, role, and associated account ID.
+     *
+     * @return a {@link UserInfoResponse} DTO containing user and account details
+     */
+    public UserInfoResponse UserInfo(){
+
+        ActioUser user = this.getAuthenticatedUser();
+
+        Account account = user.getAccount();
+
+        return UserInfoResponse.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .userRole(user.getUserRole().getRoleDescription())
+                .accountId(account.getId())
+                .build();
     }
 
 }
