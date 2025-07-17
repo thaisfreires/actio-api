@@ -1,7 +1,7 @@
 package com.actio.actio_api.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 /**
  * Represents a specific holding of a stock within a user's account.
@@ -13,7 +13,12 @@ import lombok.Data;
  * financial transactions involving the stock (e.g. buy or sell operations),
  * ensuring data consistency without manual updates from the application layer.
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(exclude = {"account", "stock"})
 @Entity
 @Table(name = "stock_item")
 public class StockItem {

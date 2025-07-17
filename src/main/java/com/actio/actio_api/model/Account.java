@@ -1,10 +1,7 @@
 package com.actio.actio_api.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,10 +17,14 @@ import java.util.List;
  * a movement is recorded. Similarly, any transactions involving stock purchases or
  * sales automatically update the corresponding StockItem quantities via trigger.
  */
-@Data
-@Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@ToString(exclude = "actioUser")
+@EqualsAndHashCode(exclude = "actioUser")
+@Entity
 @Table(name = "account")
 public class Account {
 
