@@ -1,8 +1,10 @@
 package com.actio.actio_api.service;
 
+import com.actio.actio_api.model.Account;
 import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.UserRole;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
+import com.actio.actio_api.model.response.UserInfoResponse;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
 import com.actio.actio_api.repository.ActioUserRepository;
 import com.actio.actio_api.repository.UserRoleRepository;
@@ -33,6 +35,7 @@ public class ActioUserService {
     private final ActioUserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleRepository userRoleRepository;
+    private final AccountService accountService;
 
     /**
      * Registers a new user after validating business constraints such as uniqueness of email and NIF.
@@ -55,8 +58,10 @@ public class ActioUserService {
             throw new FieldValidationException(errors);
         }
 
-        ActioUser newClient = requestToActioUser(request);
-            return actioUserToResponse(repository.save(newClient));
+        ActioUser newClient = requestToActioUserClient(request);
+        ActioUser savedUser = repository.save(newClient);
+        AccountResponse accountResponse = accountService.save(savedUser);
+            return actioUserToResponse(savedUser);
     }
 
     /**
@@ -66,11 +71,10 @@ public class ActioUserService {
      * @param request the user registration data
      * @return the corresponding {@link ActioUser} entity ready for persistence
      */
-    private ActioUser requestToActioUser(UserRegistrationRequest request) {
+    private ActioUser requestToActioUserClient(UserRegistrationRequest request) {
 
         // CLIENT
-        UserRole userRole = userRoleRepository.findById(1).orElseThrow();
-
+        UserRole userRole = userRoleRepository.findByRoleDescription("CLIENT");
         return ActioUser.builder()
                 .name(request.getName())
                 .nif(request.getNif())
@@ -104,6 +108,25 @@ public class ActioUserService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return repository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
+    }
+
+    /**
+     * Retrieves information about the currently authenticated user,
+     * including their name, email, role, and associated account ID.
+     *
+     * @return a {@link UserInfoResponse} DTO containing user and account details
+     */
+    public UserInfoResponse UserInfo(){
+
+        ActioUser user = this.getAuthenticatedUser();
+        Account account = user.getAccount();
+
+        return UserInfoResponse.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .userRole(user.getUserRole().getRoleDescription())
+                .accountId(account.getId())
+                .build();
     }
 
 }

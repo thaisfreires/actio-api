@@ -1,6 +1,9 @@
 package com.actio.actio_api.controller;
 
+import com.actio.actio_api.model.Account;
+import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.request.UserRegistrationRequest;
+import com.actio.actio_api.model.response.UserInfoResponse;
 import com.actio.actio_api.model.response.UserRegistrationResponse;
 import com.actio.actio_api.service.ActioUserService;
 import jakarta.validation.Valid;
@@ -8,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -46,4 +50,24 @@ public class ActioUserController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
+    /**
+     * Endpoint to retrieve information about the authenticated user.
+     * Accessible by users with CLIENT or ADMIN roles.
+     *
+     * @return a {@link ResponseEntity} containing the user's name, email, role, and account ID if successful,
+     *         or a 400 Bad Request with an error message if an exception occurs.
+     */
+    @GetMapping("/user-info")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('ADMIN')")
+    public ResponseEntity<?> getUserInfo() {
+        try{
+            UserInfoResponse response = service.UserInfo();
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to fetch user info");
+        }
+
+    }
+
 }
