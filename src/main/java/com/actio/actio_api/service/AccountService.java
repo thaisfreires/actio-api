@@ -20,7 +20,6 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountStatusRepository accountStatusRepository;
     private final StockItemService stockItemService;
-    private final ActioUserService  actioUserService;
 
     /**
      * Creates and saves a new account for the given user with ACTIVE status and zero balance.
@@ -130,11 +129,12 @@ public class AccountService {
      *
      * @return an AccountResponse containing the account ID, user email, and current balance
      */
-    public AccountResponse getAccountInfo(){
-        Account account = actioUserService.getAuthenticatedUser().getAccount();
+    public AccountResponse getAccountInfo(ActioUser user){
+        Account account = this.getActiveAccount(user);
         return AccountResponse.builder()
                 .id(account.getId())
                 .userEmail(account.getActioUser().getEmail())
+                .status(account.getStatus().getStatusDescription())
                 .currentBalance(account.getCurrentBalance())
                 .build();
     }

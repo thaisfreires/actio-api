@@ -72,7 +72,8 @@ public class AccountController {
     @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<?> getAccountInfo(){
         try{
-            AccountResponse response = accountService.getAccountInfo();
+            ActioUser user = actioUserService.getAuthenticatedUser();
+            AccountResponse response = accountService.getAccountInfo(user);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }  catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to find account info");
