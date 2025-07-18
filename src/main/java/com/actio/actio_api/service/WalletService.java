@@ -58,6 +58,12 @@ public class WalletService {
     }
 
 
+    /**
+     * Retrieves the quantity of a specific stock held in the authenticated user's active account.
+     *
+     * @param stockId the ID of the stock to check
+     * @return a StockQuantityResponse containing the stock ID and the quantity held by the user
+     */
     public StockQuantityResponse getStockQuantityById(Long stockId){
         Long activeAccountId = actioUserService.getAuthenticatedUser().getAccount().getId();
        Integer stockItemQuantity = stockItemService.getStockItemQuantity(activeAccountId, stockId);

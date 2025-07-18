@@ -48,6 +48,14 @@ public class WalletController {
 
     }
 
+    /**
+     * Retrieves the quantity of a specific stock held by the authenticated user.
+     *
+     * Accessible only to users with the CLIENT role.
+     *
+     * @param stockId the ID of the stock to retrieve the quantity for
+     * @return a ResponseEntity containing a StockQuantityResponse with the quantity of the specified stock
+     */
     @PreAuthorize("hasRole('CLIENT')")
     @GetMapping("/{stockId}/quantity")
     public ResponseEntity<StockQuantityResponse> getStockQuantity(@PathVariable Long stockId) {
