@@ -45,6 +45,7 @@ public class WalletService {
                         throw new RuntimeException("Failed to retrieve stock data for: " + item.getStock().getStockName());
                     }
                     return new WalletResponse(
+                            stockData.getStockId(),
                             stockData.getSymbol(),
                             item.getQuantity(),
                             stockData.getPrice().doubleValue(),

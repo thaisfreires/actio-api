@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class WalletResponse {
+    private Long stockId;
     private String stockName;
     private Integer quantity;
     private double currentValue;
