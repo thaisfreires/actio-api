@@ -3,8 +3,8 @@ package com.actio.actio_api.service;
 import com.actio.actio_api.model.Account;
 import com.actio.actio_api.model.ActioUser;
 import com.actio.actio_api.model.response.GetAlphaVantageStockResponse;
+import com.actio.actio_api.model.response.StockQuantityResponse;
 import com.actio.actio_api.model.response.WalletResponse;
-import com.actio.actio_api.model.webclient.GlobalQuote;
 import com.actio.actio_api.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,8 @@ public class WalletService {
 
     private final AccountRepository accountRepository;
     private final AlphaVantageWebClientService  alphaVantageWebClientService;
+    private final StockItemService stockItemService;
+    private final ActioUserService  actioUserService;
 
 
     /**
@@ -53,5 +55,15 @@ public class WalletService {
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+
+    public StockQuantityResponse getStockQuantityById(Long stockId){
+        Long activeAccountId = actioUserService.getAuthenticatedUser().getAccount().getId();
+       Integer stockItemQuantity = stockItemService.getStockItemQuantity(activeAccountId, stockId);
+       return StockQuantityResponse.builder()
+               .stockId(stockId)
+               .quantity(stockItemQuantity)
+               .build();
     }
 }

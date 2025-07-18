@@ -1,6 +1,7 @@
 package com.actio.actio_api.controller;
 
 import com.actio.actio_api.model.ActioUser;
+import com.actio.actio_api.model.response.StockQuantityResponse;
 import com.actio.actio_api.model.response.WalletResponse;
 import com.actio.actio_api.service.ActioUserService;
 import com.actio.actio_api.service.WalletService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,5 +46,12 @@ public class WalletController {
         List<WalletResponse> wallet = walletService.getWalletForUser(user);
         return ResponseEntity.ok(wallet);
 
+    }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping("/{stockId}/quantity")
+    public ResponseEntity<StockQuantityResponse> getStockQuantity(@PathVariable Long stockId) {
+        StockQuantityResponse response = walletService.getStockQuantityById(stockId);
+        return ResponseEntity.ok(response);
     }
 }
