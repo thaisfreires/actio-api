@@ -124,4 +124,18 @@ public class AccountService {
         return account;
     }
 
+    /**
+     * Retrieves detailed account information for the authenticated user.
+     *
+     * @return an AccountResponse containing the account ID, user email, and current balance
+     */
+    public AccountResponse getAccountInfo(ActioUser user){
+        Account account = this.getActiveAccount(user);
+        return AccountResponse.builder()
+                .id(account.getId())
+                .userEmail(account.getActioUser().getEmail())
+                .status(account.getStatus().getStatusDescription())
+                .currentBalance(account.getCurrentBalance())
+                .build();
+    }
 }
