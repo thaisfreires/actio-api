@@ -60,4 +60,24 @@ public class AccountController {
         }
     }
 
+    /**
+     * Retrieves account information for the authenticated user.
+     *
+     * Accessible only to users with the CLIENT role.
+     *
+     * @return a ResponseEntity containing an AccountResponse with account details if successful,
+     *         or a bad request response with an error message if retrieval fails
+     */
+    @GetMapping("/info")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<?> getAccountInfo(){
+        try{
+            AccountResponse response = accountService.getAccountInfo();
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }  catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to find account info");
+        }
+    }
+
+
 }
