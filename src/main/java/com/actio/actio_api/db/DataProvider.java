@@ -33,7 +33,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(1L))
+                .stock(stockService.findByStockId(1L))
                 .negotiationPrice(new BigDecimal("3.40"))
                 .quantity(80)
                 .transactionType(transactionTypeService.findById(1))
@@ -42,7 +42,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(2L))
+                .stock(stockService.findByStockId(2L))
                 .negotiationPrice(new BigDecimal("10.50"))
                 .quantity(25)
                 .transactionType(transactionTypeService.findById(1))
@@ -51,7 +51,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(3L))
+                .stock(stockService.findByStockId(3L))
                 .negotiationPrice(new BigDecimal("4.90"))
                 .quantity(30)
                 .transactionType(transactionTypeService.findById(1))
@@ -60,7 +60,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(1L))
+                .stock(stockService.findByStockId(1L))
                 .negotiationPrice(new BigDecimal("3.45"))
                 .quantity(100)
                 .transactionType(transactionTypeService.findById(1))
@@ -69,7 +69,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(2L))
+                .stock(stockService.findByStockId(2L))
                 .negotiationPrice(new BigDecimal("10.25"))
                 .quantity(30)
                 .transactionType(transactionTypeService.findById(1))
@@ -78,7 +78,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(3L))
+                .stock(stockService.findByStockId(3L))
                 .negotiationPrice(new BigDecimal("4.70"))
                 .quantity(40)
                 .transactionType(transactionTypeService.findById(1))
@@ -87,7 +87,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(1L))
+                .stock(stockService.findByStockId(1L))
                 .negotiationPrice(new BigDecimal("3.60"))
                 .quantity(110)
                 .transactionType(transactionTypeService.findById(1))
@@ -96,7 +96,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(2L))
+                .stock(stockService.findByStockId(2L))
                 .negotiationPrice(new BigDecimal("10.10"))
                 .quantity(50)
                 .transactionType(transactionTypeService.findById(1))
@@ -105,7 +105,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(3L))
+                .stock(stockService.findByStockId(3L))
                 .negotiationPrice(new BigDecimal("4.80"))
                 .quantity(60)
                 .transactionType(transactionTypeService.findById(1))
@@ -114,7 +114,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(4L))
+                .stock(stockService.findByStockId(4L))
                 .negotiationPrice(new BigDecimal("0.16"))
                 .quantity(600)
                 .transactionType(transactionTypeService.findById(1))
@@ -123,7 +123,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(4L))
+                .stock(stockService.findByStockId(4L))
                 .negotiationPrice(new BigDecimal("0.15"))
                 .quantity(300)
                 .transactionType(transactionTypeService.findById(1))
@@ -132,7 +132,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(4L))
+                .stock(stockService.findByStockId(4L))
                 .negotiationPrice(new BigDecimal("0.17"))
                 .quantity(700)
                 .transactionType(transactionTypeService.findById(1))
@@ -141,7 +141,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(2L))
+                .stock(stockService.findByStockId(2L))
                 .negotiationPrice(new BigDecimal("10.20"))
                 .quantity(40)
                 .transactionType(transactionTypeService.findById(1))
@@ -149,7 +149,7 @@ public class DataProvider {
                 .build());
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(1L))   // EDP.LS ~ €3.5
+                .stock(stockService.findByStockId(1L))   // EDP.LS ~ €3.5
                 .negotiationPrice(new BigDecimal("3.55"))
                 .quantity(100)
                 .transactionType(transactionTypeService.findById(1))
@@ -158,7 +158,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(2L))   // PETR4.SA ~ BRL 39
+                .stock(stockService.findByStockId(2L))   // PETR4.SA ~ BRL 39
                 .negotiationPrice(new BigDecimal("38.90"))
                 .quantity(15)
                 .transactionType(transactionTypeService.findById(1))
@@ -167,7 +167,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(3L))   // AIR.PA ~ €150
+                .stock(stockService.findByStockId(3L))   // AIR.PA ~ €150
                 .negotiationPrice(new BigDecimal("149.80"))
                 .quantity(5)
                 .transactionType(transactionTypeService.findById(1))
@@ -176,7 +176,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(4L))   // OR.PA ~ €430
+                .stock(stockService.findByStockId(4L))   // OR.PA ~ €430
                 .negotiationPrice(new BigDecimal("428.60"))
                 .quantity(2)
                 .transactionType(transactionTypeService.findById(1))
@@ -185,7 +185,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(5L))   // GALP.LS ~ €10
+                .stock(stockService.findByStockId(5L))   // GALP.LS ~ €10
                 .negotiationPrice(new BigDecimal("10.05"))
                 .quantity(80)
                 .transactionType(transactionTypeService.findById(1))
@@ -194,7 +194,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(6L))   // NOS.LS ~ €4.5
+                .stock(stockService.findByStockId(6L))   // NOS.LS ~ €4.5
                 .negotiationPrice(new BigDecimal("4.45"))
                 .quantity(50)
                 .transactionType(transactionTypeService.findById(1))
@@ -203,7 +203,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(7L))   // BCP.LS ~ €0.15
+                .stock(stockService.findByStockId(7L))   // BCP.LS ~ €0.15
                 .negotiationPrice(new BigDecimal("0.14"))
                 .quantity(500)
                 .transactionType(transactionTypeService.findById(1))
@@ -212,7 +212,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(26L))  // MC.PA (LVMH) ~ €765
+                .stock(stockService.findByStockId(26L))  // MC.PA (LVMH) ~ €765
                 .negotiationPrice(new BigDecimal("762.00"))
                 .quantity(1)
                 .transactionType(transactionTypeService.findById(1))
@@ -221,7 +221,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(39L))  // VALE3.SA ~ BRL 65
+                .stock(stockService.findByStockId(39L))  // VALE3.SA ~ BRL 65
                 .negotiationPrice(new BigDecimal("65.10"))
                 .quantity(10)
                 .transactionType(transactionTypeService.findById(1))
@@ -230,7 +230,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(41L))  // BBDC4.SA ~ BRL 16
+                .stock(stockService.findByStockId(41L))  // BBDC4.SA ~ BRL 16
                 .negotiationPrice(new BigDecimal("16.25"))
                 .quantity(20)
                 .transactionType(transactionTypeService.findById(1))
@@ -239,7 +239,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(1L)) // EDP.LS
+                .stock(stockService.findByStockId(1L)) // EDP.LS
                 .negotiationPrice(new BigDecimal("3.65"))
                 .quantity(50)
                 .transactionType(transactionTypeService.findById(2)) // SELL
@@ -248,7 +248,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(2L)) // PETR4.SA
+                .stock(stockService.findByStockId(2L)) // PETR4.SA
                 .negotiationPrice(new BigDecimal("39.10"))
                 .quantity(10)
                 .transactionType(transactionTypeService.findById(2))
@@ -257,7 +257,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(7L)) // BCP.LS
+                .stock(stockService.findByStockId(7L)) // BCP.LS
                 .negotiationPrice(new BigDecimal("0.15"))
                 .quantity(200)
                 .transactionType(transactionTypeService.findById(2))
@@ -266,7 +266,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(3L)) // AIR.PA
+                .stock(stockService.findByStockId(3L)) // AIR.PA
                 .negotiationPrice(new BigDecimal("150.10"))
                 .quantity(2)
                 .transactionType(transactionTypeService.findById(2))
@@ -275,7 +275,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(1L))
-                .stock(stockService.findById(4L)) // OR.PA
+                .stock(stockService.findByStockId(4L)) // OR.PA
                 .negotiationPrice(new BigDecimal("430.00"))
                 .quantity(1)
                 .transactionType(transactionTypeService.findById(2))
@@ -284,7 +284,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(3L)) // AIR.PA
+                .stock(stockService.findByStockId(3L)) // AIR.PA
                 .negotiationPrice(new BigDecimal("151.20"))
                 .quantity(2)
                 .transactionType(transactionTypeService.findById(2))
@@ -293,7 +293,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(4L)) // OR.PA
+                .stock(stockService.findByStockId(4L)) // OR.PA
                 .negotiationPrice(new BigDecimal("432.00"))
                 .quantity(1)
                 .transactionType(transactionTypeService.findById(2))
@@ -302,7 +302,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(26L)) // MC.PA (LVMH)
+                .stock(stockService.findByStockId(26L)) // MC.PA (LVMH)
                 .negotiationPrice(new BigDecimal("765.00"))
                 .quantity(1)
                 .transactionType(transactionTypeService.findById(2))
@@ -311,7 +311,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(41L)) // BBDC4.SA
+                .stock(stockService.findByStockId(41L)) // BBDC4.SA
                 .negotiationPrice(new BigDecimal("16.40"))
                 .quantity(10)
                 .transactionType(transactionTypeService.findById(2))
@@ -320,7 +320,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(2L))
-                .stock(stockService.findById(1L)) // EDP.LS
+                .stock(stockService.findByStockId(1L)) // EDP.LS
                 .negotiationPrice(new BigDecimal("3.70"))
                 .quantity(60)
                 .transactionType(transactionTypeService.findById(2))
@@ -329,7 +329,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(5L)) // GALP.LS
+                .stock(stockService.findByStockId(5L)) // GALP.LS
                 .negotiationPrice(new BigDecimal("10.20"))
                 .quantity(30)
                 .transactionType(transactionTypeService.findById(2))
@@ -338,7 +338,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(6L)) // NOS.LS
+                .stock(stockService.findByStockId(6L)) // NOS.LS
                 .negotiationPrice(new BigDecimal("4.55"))
                 .quantity(20)
                 .transactionType(transactionTypeService.findById(2))
@@ -347,7 +347,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(39L)) // VALE3.SA
+                .stock(stockService.findByStockId(39L)) // VALE3.SA
                 .negotiationPrice(new BigDecimal("65.20"))
                 .quantity(8)
                 .transactionType(transactionTypeService.findById(2))
@@ -356,7 +356,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(1L)) // EDP.LS
+                .stock(stockService.findByStockId(1L)) // EDP.LS
                 .negotiationPrice(new BigDecimal("3.80"))
                 .quantity(50)
                 .transactionType(transactionTypeService.findById(2))
@@ -365,7 +365,7 @@ public class DataProvider {
 
         stockTransactions.add(StockTransaction.builder()
                 .account(accountService.getById(3L))
-                .stock(stockService.findById(2L)) // PETR4.SA
+                .stock(stockService.findByStockId(2L)) // PETR4.SA
                 .negotiationPrice(new BigDecimal("39.40"))
                 .quantity(10)
                 .transactionType(transactionTypeService.findById(2))
@@ -391,7 +391,7 @@ public class DataProvider {
 
             stockTransactions.add(StockTransaction.builder()
                     .account(accountService.getById(accountId))
-                    .stock(stockService.findById((long) stockId))
+                    .stock(stockService.findByStockId((long) stockId))
                     .negotiationPrice(avgPrice)
                     .quantity(qty)
                     .transactionType(transactionTypeService.findById(1)) // COMPRA
