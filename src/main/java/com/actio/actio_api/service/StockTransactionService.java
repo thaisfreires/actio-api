@@ -189,4 +189,8 @@ public class StockTransactionService {
                 .totalValue(transaction.getNegotiationPrice().multiply(BigDecimal.valueOf(transaction.getQuantity())))
                 .build();
     }
+
+    public void saveTransaction(StockTransaction transaction) {
+        stockTransactionRepository.save(transaction);
+    }
 }
