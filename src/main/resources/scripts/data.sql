@@ -2,42 +2,59 @@ USE actio_db;
 GO;
 
 INSERT INTO stock (stock_name) VALUES
-                                   ('EDP.LS'),
-                                   ('NOS.LS'),
-                                   ('GALP.LS');
+                                   ('EDP.LS'),     -- EDP - Energias de Portugal
+                                   ('PETR4.SA'),   -- Petrobras
+                                   ('AIR.PA'),     -- Airbus
+                                   ('OR.PA'),      -- L'Oréal
+
+                                   ('GALP.LS'),    -- Galp Energia
+                                   ('NOS.LS'),     -- NOS Comunicações
+                                   ('BCP.LS'),     -- Banco Comercial Português
+                                   ('CTT.LS'),     -- CTT Correios de Portugal
+                                   ('REN.LS'),     -- REN - Redes Energéticas Nacionais
+                                   ('ALTR.LS'),    -- Altri
+                                   ('SON.LS'),     -- Sonae
+                                   ('NVG.LS'),     -- Novabase
+                                   ('PHR.LS'),     -- Pharol
+                                   ('IBA.LS'),     -- Ibersol
+                                   ('COR.LS'),     -- Corticeira Amorim
+                                   ('FCP.LS'),     -- F. Ramada Investimentos
+                                   ('IMP.LS'),     -- Impresa
+                                   ('SEM.LS'),     -- Semapa
+                                   ('LIS.LS'),     -- Lisgráfica
+                                   ('TAP.LS'),     -- TAP Air Portugal
+                                   ('JMT.LS'),     -- Jerónimo Martins
+                                   ('SNC.LS'),     -- Sonae Capital
+                                   ('VAA.LS'),     -- Vista Alegre Atlantis
 
 
-INSERT INTO actio_user (full_name, nif, date_of_birth, email, user_password, role_code) VALUES
-                                                                                            ('Alice Pereira', '123456789', '1990-05-10', 'alice@teste.com', '$2a$10$EwXVLrD4UsyBO8TGd37gUuSdvfaLEs7iUEdGRXxNvyUSCl/S0kY3S', 2),
-                                                                                            ('Bruno Costa', '987654321', '1985-11-22', 'bruno@teste.com', '$2a$10$JB3/DjFSBxsUo3U4lxfI8.7Jn./DqBcRm9gJvoM55UW.Rc7Gz7fH6', 2),
-                                                                                            ('Carla Silva', '456789123', '1992-02-15', 'carla@teste.com', '$2a$10$8LYnWmdPCDGqb0I./rTIjes51wsrj9xOVRaK3mBOIKV/wtvnIcHjC', 2);
+                                   ('BNP.PA'),     -- BNP Paribas
 
-INSERT INTO account (id_user, current_balance, status_code) VALUES
-                                                                (1, 10000.00, 1),
-                                                                (2, 5000.00, 1),
-                                                                (3, 7500.00, 1);
+                                   ('SAN.PA'),     -- Sanofi
+                                   ('SU.PA'),      -- Schneider Electric
+                                   ('DG.PA'),      -- Vinci
+                                   ('MC.PA'),      -- LVMH
+                                   ('CA.PA'),      -- Crédit Agricole
+                                   ('VIE.PA'),     -- Veolia
+                                   ('RNO.PA'),     -- Renault
+                                   ('HO.PA'),      -- Thales
+                                   ('KER.PA'),     -- Kering
+                                   ('ATO.PA'),     -- Atos
+                                   ('PUB.PA'),     -- Publicis Groupe
+                                   ('EN.PA'),      -- Bouygues
+                                   ('ACA.PA'),     -- Accor
+                                   ('ML.PA'),      -- Michelin
+                                   ('UG.PA'),      -- Peugeot
+                                   ('CAP.PA'),     -- Capgemini
+                                   ('GLE.PA'),     -- Société Générale
 
-INSERT INTO movement (id_account, amount, type_code) VALUES
-                                                         (1, 1000.00, 1), -- Alice
-                                                         (2, 500.00, 1),  -- Bruno
-                                                         (3, 250.00, 1);  -- Carla
 
-INSERT INTO movement (id_account, amount, type_code) VALUES
-                                                         (1, 300.00, 2),
-                                                         (2, 200.00, 2);
-
--- Alice compra 10 ações da EDP.LS a 5.00 cada
-INSERT INTO stock_transaction (id_account, id_stock, negotiation_price, quantity, type_code)
-VALUES (1, 1, 5.00, 10, 1);
-
--- Bruno compra 5 ações da NOS.LS a 8.00 cada
-INSERT INTO stock_transaction (id_account, id_stock, negotiation_price, quantity, type_code)
-VALUES (2, 2, 8.00, 5, 1);
-
--- Carla compra 3 da GALP.LS a 15.00 cada
-INSERT INTO stock_transaction (id_account, id_stock, negotiation_price, quantity, type_code)
-VALUES (3, 3, 15.00, 3, 1);
-
--- Alice vende 5 ações da EDP.LS a 6.50 cada
-INSERT INTO stock_transaction (id_account, id_stock, negotiation_price, quantity, type_code)
-VALUES (1, 1, 6.50, 5, 2);
+                                   ('VALE3.SA'),   -- Vale
+                                   ('ITUB4.SA'),   -- Itaú Unibanco
+                                   ('BBDC4.SA'),   -- Bradesco
+                                   ('ABEV3.SA'),   -- Ambev
+                                   ('BBAS3.SA'),   -- Banco do Brasil
+                                   ('WEGE3.SA'),   -- WEG
+                                   ('JBSS3.SA'),   -- JBS
+                                   ('LREN3.SA'),   -- Lojas Renner
+                                   ('MGLU3.SA');   -- Magazine Luiza

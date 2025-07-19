@@ -10,6 +10,7 @@ import com.actio.actio_api.model.response.UserRegistrationResponse;
 import com.actio.actio_api.repository.ActioUserRepository;
 import com.actio.actio_api.repository.UserRoleRepository;
 import com.actio.actio_api.validation.FieldValidationException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,6 +46,7 @@ public class ActioUserService {
      * @return a lightweight response containing the user's email and generated ID
      * @throws FieldValidationException if email or NIF already exist
      */
+    @Transactional
     public UserRegistrationResponse save(UserRegistrationRequest request){
         boolean emailExists = repository.existsActioUserByEmail(request.getEmail());
         boolean nifExists = repository.existsActioUserByNif(request.getNif());
