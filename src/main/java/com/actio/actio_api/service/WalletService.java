@@ -38,6 +38,7 @@ public class WalletService {
                 .orElseThrow(() -> new RuntimeException("Account not found for user with id: " + user.getId()));
 
         return account.getItems().stream()
+                .filter(item -> item.getQuantity() > 0)
                 .map(item -> {
                     GetAlphaVantageStockResponse stockData = alphaVantageWebClientService
                             .getStock(item.getStock().getStockName())
