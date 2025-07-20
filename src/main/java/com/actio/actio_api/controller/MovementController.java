@@ -63,9 +63,9 @@ public class MovementController {
      */
     @GetMapping("/history")
     @PreAuthorize("hasAnyRole('CLIENT', 'ADMIN')")
-    public ResponseEntity<List<Movement>> getMovements() {
+    public ResponseEntity<List<MovementResponse>> getMovements() {
         ActioUser user = actioUserService.getAuthenticatedUser();
-        List<Movement> history = movementService.getHistory(user);
+        List<MovementResponse> history = movementService.getHistory(user);
         return ResponseEntity.ok(history);
     }
 }
