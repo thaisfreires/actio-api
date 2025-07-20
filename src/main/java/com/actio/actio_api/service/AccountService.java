@@ -138,4 +138,9 @@ public class AccountService {
                 .currentBalance(account.getCurrentBalance())
                 .build();
     }
+
+    public Account getById(Long id){
+        return  accountRepository.findAccountById((id));
+
+    }
 }

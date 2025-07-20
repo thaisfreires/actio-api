@@ -1,90 +1,55 @@
 [
-  {
-    "Global Quote": {
-      "01. symbol": "BN.PA",
-      "02. open": "52.10",
-      "03. high": "52.95",
-      "04. low": "51.70",
-      "05. price": "52.60",
-      "06. volume": "74900",
-      "07. latest trading day": "2024-07-15",
-      "08. previous close": "52.10",
-      "09. change": "0.50",
-      "10. change percent": "0.96%"
-    }
-  },
-  {
-    "Global Quote": {
-      "01. symbol": "OR.PA",
-      "02. open": "421.00",
-      "03. high": "425.30",
-      "04. low": "419.20",
-      "05. price": "423.80",
-      "06. volume": "98010",
-      "07. latest trading day": "2024-07-15",
-      "08. previous close": "421.00",
-      "09. change": "2.80",
-      "10. change percent": "0.67%"
-    }
-  },
-  {
-    "Global Quote": {
-      "01. symbol": "MC.PA",
-      "02. open": "760.00",
-      "03. high": "765.00",
-      "04. low": "755.00",
-      "05. price": "762.40",
-      "06. volume": "185000",
-      "07. latest trading day": "2024-07-15",
-      "08. previous close": "760.00",
-      "09. change": "2.40",
-      "10. change percent": "0.32%"
-    }
-  },
-  {
-    "Global Quote": {
-      "01. symbol": "EDP.LS",
-      "02. open": "3.93",
-      "03. high": "3.98",
-      "04. low": "3.91",
-      "05. price": "3.96",
-      "06. volume": "64500",
-      "07. latest trading day": "2024-07-15",
-      "08. previous close": "3.93",
-      "09. change": "0.03",
-      "10. change percent": "0.76%"
-    }
-  },
-  {
-    "Global Quote": {
-      "01. symbol": "GALP.LS",
-      "02. open": "11.20",
-      "03. high": "11.38",
-      "04. low": "11.10",
-      "05. price": "11.29",
-      "06. volume": "51200",
-      "07. latest trading day": "2024-07-15",
-      "08. previous close": "11.20",
-      "09. change": "0.09",
-      "10. change percent": "0.80%"
-    }
-  },
-  {
-    "Global Quote": {
-      "01. symbol": "NOS.LS",
-      "02. open": "4.31",
-      "03. high": "4.38",
-      "04. low": "4.30",
-      "05. price": "4.35",
-      "06. volume": "31000",
-      "07. latest trading day": "2024-07-15",
-      "08. previous close": "4.31",
-      "09. change": "0.04",
-      "10. change percent": "0.93%"
-    }
-  },
-  {
-    "Global Quote": {
+  {"Global Quote": {"01. symbol": "EDP.LS", "02. open": "3.92", "03. high": "3.98", "04. low": "3.90", "05. price": "3.94", "06. volume": "62500", "07. latest trading day": "2025-07-18", "08. previous close": "3.92", "09. change": "0.02", "10. change percent": "0.51%"}},
+  {"Global Quote": {"01. symbol": "PETR4.SA", "02. open": "31.10", "03. high": "32.00", "04. low": "30.90", "05. price": "31.50", "06. volume": "2350000", "07. latest trading day": "2025-07-18", "08. previous close": "31.10", "09. change": "0.40", "10. change percent": "1.29%"}},
+  {"Global Quote": {"01. symbol": "AIR.PA", "02. open": "12.15", "03. high": "12.45", "04. low": "12.00", "05. price": "12.30", "06. volume": "72000", "07. latest trading day": "2025-07-18", "08. previous close": "12.15", "09. change": "0.15", "10. change percent": "1.23%"}},
+  {"Global Quote": {"01. symbol": "OR.PA", "02. open": "361.20", "03. high": "364.50", "04. low": "359.00", "05. price": "362.80", "06. volume": "89000", "07. latest trading day": "2025-07-18", "08. previous close": "361.20", "09. change": "1.60", "10. change percent": "0.44%"}},
+  {"Global Quote": {"01. symbol": "GALP.LS", "02. open": "15.70", "03. high": "15.95", "04. low": "15.60", "05. price": "15.85", "06. volume": "54000", "07. latest trading day": "2025-07-18", "08. previous close": "15.70", "09. change": "0.15", "10. change percent": "0.96%"}},
+  {"Global Quote": {"01. symbol": "NOS.LS", "02. open": "4.32", "03. high": "4.37", "04. low": "4.30", "05. price": "4.34", "06. volume": "32000", "07. latest trading day": "2025-07-18", "08. previous close": "4.32", "09. change": "0.02", "10. change percent": "0.46%"}},
+  {"Global Quote": {"01. symbol": "BCP.LS", "02. open": "0.36", "03. high": "0.37", "04. low": "0.35", "05. price": "0.36", "06. volume": "150000", "07. latest trading day": "2025-07-18", "08. previous close": "0.36", "09. change": "0.00", "10. change percent": "0.00%"}},
+  {"Global Quote": {"01. symbol": "CTT.LS", "02. open": "3.74", "03. high": "3.80", "04. low": "3.72", "05. price": "3.78", "06. volume": "49000", "07. latest trading day": "2025-07-18", "08. previous close": "3.74", "09. change": "0.04", "10. change percent": "1.07%"}},
+  {"Global Quote": {"01. symbol": "REN.LS", "02. open": "2.86", "03. high": "2.91", "04. low": "2.84", "05. price": "2.88", "06. volume": "38000", "07. latest trading day": "2025-07-18", "08. previous close": "2.86", "09. change": "0.02", "10. change percent": "0.70%"}},
+  {"Global Quote": {"01. symbol": "ALTR.LS", "02. open": "2.88", "03. high": "2.92", "04. low": "2.87", "05. price": "2.90", "06. volume": "12000", "07. latest trading day": "2025-07-18", "08. previous close": "2.88", "09. change": "0.02", "10. change percent": "0.69%"}},
+  {"Global Quote": {"01. symbol": "SON.LS", "02. open": "4.52", "03. high": "4.58", "04. low": "4.50", "05. price": "4.55", "06. volume": "21500", "07. latest trading day": "2025-07-18", "08. previous close": "4.52", "09. change": "0.03", "10. change percent": "0.66%"}},
+  {"Global Quote": {"01. symbol": "NVG.LS", "02. open": "1.70", "03. high": "1.74", "04. low": "1.68", "05. price": "1.72", "06. volume": "11000", "07. latest trading day": "2025-07-18", "08. previous close": "1.70", "09. change": "0.02", "10. change percent": "1.18%"}},
+  {"Global Quote": {"01. symbol": "PHR.LS", "02. open": "3.12", "03. high": "3.15", "04. low": "3.10", "05. price": "3.13", "06. volume": "9000", "07. latest trading day": "2025-07-18", "08. previous close": "3.12", "09. change": "0.01", "10. change percent": "0.32%"}},
+  {"Global Quote": {"01. symbol": "IBA.LS", "02. open": "1.50", "03. high": "1.53", "04. low": "1.48", "05. price": "1.52", "06. volume": "14000", "07. latest trading day": "2025-07-18", "08. previous close": "1.50", "09. change": "0.02", "10. change percent": "1.33%"}},
+  {"Global Quote": {"01. symbol": "COR.LS", "02. open": "5.45", "03. high": "5.52", "04. low": "5.40", "05. price": "5.48", "06. volume": "13000", "07. latest trading day": "2025-07-18", "08. previous close": "5.45", "09. change": "0.03", "10. change percent": "0.55%"}},
+  {"Global Quote": {"01. symbol": "FCP.LS", "02. open": "7.30", "03. high": "7.38", "04. low": "7.28", "05. price": "7.35", "06. volume": "8000", "07. latest trading day": "2025-07-18", "08. previous close": "7.30", "09. change": "0.05", "10. change percent": "0.68%"}},
+  {"Global Quote": {"01. symbol": "IMP.LS", "02. open": "5.15", "03. high": "5.20", "04. low": "5.10", "05. price": "5.18", "06. volume": "7000", "07. latest trading day": "2025-07-18", "08. previous close": "5.15", "09. change": "0.03", "10. change percent": "0.58%"}},
+  {"Global Quote": {"01. symbol": "SEM.LS", "02. open": "1.98", "03. high": "2.00", "04. low": "1.95", "05. price": "1.99", "06. volume": "10000", "07. latest trading day": "2025-07-18", "08. previous close": "1.98", "09. change": "0.01", "10. change percent": "0.51%"}},
+  {"Global Quote": {"01. symbol": "LIS.LS", "02. open": "1.75", "03. high": "1.79", "04. low": "1.73", "05. price": "1.77", "06. volume": "12500", "07. latest trading day": "2025-07-18", "08. previous close": "1.75", "09. change": "0.02", "10. change percent": "1.14%"}},
+  {"Global Quote": {"01. symbol": "TAP.LS", "02. open": "1.15", "03. high": "1.18", "04. low": "1.14", "05. price": "1.16", "06. volume": "35000", "07. latest trading day": "2025-07-18", "08. previous close": "1.15", "09. change": "0.01", "10. change percent": "0.87%"}},
+  {"Global Quote": {"01. symbol": "JMT.LS", "02. open": "3.45", "03. high": "3.50", "04. low": "3.42", "05. price": "3.47", "06. volume": "18000", "07. latest trading day": "2025-07-18", "08. previous close": "3.45", "09. change": "0.02", "10. change percent": "0.58%"}},
+  {"Global Quote": {"01. symbol": "SNC.LS", "02. open": "3.20", "03. high": "3.25", "04. low": "3.18", "05. price": "3.22", "06. volume": "14000", "07. latest trading day": "2025-07-18", "08. previous close": "3.20", "09. change": "0.02", "10. change percent": "0.62%"}},
+  {"Global Quote": {"01. symbol": "VAA.LS", "02. open": "4.10", "03. high": "4.15", "04. low": "4.08", "05. price": "4.12", "06. volume": "13000", "07. latest trading day": "2025-07-18", "08. previous close": "4.10", "09. change": "0.02", "10. change percent": "0.49%"}},
+  {"Global Quote": {"01. symbol": "BNP.PA", "02. open": "62.00", "03. high": "62.50", "04. low": "61.80", "05. price": "62.30", "06. volume": "78000", "07. latest trading day": "2025-07-18", "08. previous close": "62.00", "09. change": "0.30", "10. change percent": "0.48%"}},
+  {"Global Quote": {"01. symbol": "SAN.PA", "02. open": "3.65", "03. high": "3.68", "04. low": "3.63", "05. price": "3.66", "06. volume": "95000", "07. latest trading day": "2025-07-18", "08. previous close": "3.65", "09. change": "0.01", "10. change percent": "0.27%"}},
+  {"Global Quote": {"01. symbol": "SU.PA", "02. open": "70.00", "03. high": "70.50", "04. low": "69.80", "05. price": "70.10", "06. volume": "45000", "07. latest trading day": "2025-07-18", "08. previous close": "70.00", "09. change": "0.10", "10. change percent": "0.14%"}},
+  {"Global Quote": {"01. symbol": "DG.PA", "02. open": "52.00", "03. high": "52.40", "04. low": "51.80", "05. price": "52.10", "06. volume": "22000", "07. latest trading day": "2025-07-18", "08. previous close": "52.00", "09. change": "0.10", "10. change percent": "0.19%"}},
+  {"Global Quote": {"01. symbol": "MC.PA", "02. open": "760.00", "03. high": "765.00", "04. low": "758.00", "05. price": "762.00", "06. volume": "187000", "07. latest trading day": "2025-07-18", "08. previous close": "760.00", "09. change": "2.00", "10. change percent": "0.26%"}},
+  {"Global Quote": {"01. symbol": "CA.PA", "02. open": "95.20", "03. high": "96.00", "04. low": "94.80", "05. price": "95.50", "06. volume": "65000", "07. latest trading day": "2025-07-18", "08. previous close": "95.20", "09. change": "0.30", "10. change percent": "0.31%"}},
+  {"Global Quote": {"01. symbol": "VIE.PA", "02. open": "24.50", "03. high": "24.80", "04. low": "24.40", "05. price": "24.65", "06. volume": "49000", "07. latest trading day": "2025-07-18", "08. previous close": "24.50", "09. change": "0.15", "10. change percent": "0.61%"}},
+  {"Global Quote": {"01. symbol": "RNO.PA", "02. open": "45.30", "03. high": "45.70", "04. low": "45.10", "05. price": "45.50", "06. volume": "83000", "07. latest trading day": "2025-07-18", "08. previous close": "45.30", "09. change": "0.20", "10. change percent": "0.44%"}},
+  {"Global Quote": {"01. symbol": "HO.PA", "02. open": "8.90", "03. high": "9.00", "04. low": "8.85", "05. price": "8.95", "06. volume": "12000", "07. latest trading day": "2025-07-18", "08. previous close": "8.90", "09. change": "0.05", "10. change percent": "0.56%"}},
+  {"Global Quote": {"01. symbol": "KER.PA", "02. open": "21.50", "03. high": "21.80", "04. low": "21.40", "05. price": "21.60", "06. volume": "17000", "07. latest trading day": "2025-07-18", "08. previous close": "21.50", "09. change": "0.10", "10. change percent": "0.47%"}},
+  {"Global Quote": {"01. symbol": "ATO.PA", "02. open": "80.00", "03. high": "80.50", "04. low": "79.80", "05. price": "80.30", "06. volume": "29000", "07. latest trading day": "2025-07-18", "08. previous close": "80.00", "09. change": "0.30", "10. change percent": "0.38%"}},
+  {"Global Quote": {"01. symbol": "PUB.PA", "02. open": "43.20", "03. high": "43.60", "04. low": "43.00", "05. price": "43.40", "06. volume": "21000", "07. latest trading day": "2025-07-18", "08. previous close": "43.20", "09. change": "0.20", "10. change percent": "0.46%"}},
+  {"Global Quote": {"01. symbol": "EN.PA", "02. open": "18.40", "03. high": "18.60", "04. low": "18.30", "05. price": "18.50", "06. volume": "36000", "07. latest trading day": "2025-07-18", "08. previous close": "18.40", "09. change": "0.10", "10. change percent": "0.54%"}},
+  {"Global Quote": {"01. symbol": "ACA.PA", "02. open": "23.80", "03. high": "24.10", "04. low": "23.70", "05. price": "23.95", "06. volume": "20000", "07. latest trading day": "2025-07-18", "08. previous close": "23.80", "09. change": "0.15", "10. change percent": "0.63%"}},
+  {"Global Quote": {"01. symbol": "ML.PA", "02. open": "7.25", "03. high": "7.35", "04. low": "7.20", "05. price": "7.30", "06. volume": "15000", "07. latest trading day": "2025-07-18", "08. previous close": "7.25", "09. change": "0.05", "10. change percent": "0.69%"}},
+  {"Global Quote": {"01. symbol": "UG.PA", "02. open": "11.60", "03. high": "11.75", "04. low": "11.55", "05. price": "11.70", "06. volume": "19000", "07. latest trading day": "2025-07-18", "08. previous close": "11.60", "09. change": "0.10", "10. change percent": "0.86%"}},
+  {"Global Quote": {"01. symbol": "CAP.PA", "02. open": "25.30", "03. high": "25.60", "04. low": "25.10", "05. price": "25.45", "06. volume": "22000", "07. latest trading day": "2025-07-18", "08. previous close": "25.30", "09. change": "0.15", "10. change percent": "0.59%"}},
+  {"Global Quote": {"01. symbol": "GLE.PA", "02. open": "50.20", "03. high": "50.60", "04. low": "50.00", "05. price": "50.40", "06. volume": "46000", "07. latest trading day": "2025-07-18", "08. previous close": "50.20", "09. change": "0.20", "10. change percent": "0.40%"}},
+  {"Global Quote": {"01. symbol": "VALE3.SA", "02. open": "59.80", "03. high": "60.20", "04. low": "59.50", "05. price": "60.00", "06. volume": "110000", "07. latest trading day": "2025-07-18", "08. previous close": "59.80", "09. change": "0.20", "10. change percent": "0.33%"}},
+  {"Global Quote": {"01. symbol": "ITUB4.SA", "02. open": "25.40", "03. high": "25.70", "04. low": "25.30", "05. price": "25.60", "06. volume": "98000", "07. latest trading day": "2025-07-18", "08. previous close": "25.40", "09. change": "0.20", "10. change percent": "0.79%"}},
+  {"Global Quote": {"01. symbol": "BBDC4.SA", "02. open": "19.10", "03. high": "19.30", "04. low": "19.00", "05. price": "19.20", "06. volume": "85000", "07. latest trading day": "2025-07-18", "08. previous close": "19.10", "09. change": "0.10", "10. change percent": "0.52%"}},
+  {"Global Quote": {"01. symbol": "ABEV3.SA", "02. open": "8.75", "03. high": "8.80", "04. low": "8.70", "05. price": "8.77", "06. volume": "77000", "07. latest trading day": "2025-07-18", "08. previous close": "8.75", "09. change": "0.02", "10. change percent": "0.23%"}},
+  {"Global Quote": {"01. symbol": "BBAS3.SA", "02. open": "36.50", "03. high": "36.80", "04. low": "36.40", "05. price": "36.65", "06. volume": "67000", "07. latest trading day": "2025-07-18", "08. previous close": "36.50", "09. change": "0.15", "10. change percent": "0.41%"}},
+  {"Global Quote": {"01. symbol": "WEGE3.SA", "02. open": "20.10", "03. high": "20.30", "04. low": "20.00", "05. price": "20.25", "06. volume": "54000", "07. latest trading day": "2025-07-18", "08. previous close": "20.10", "09. change": "0.15", "10. change percent": "0.75%"}},
+  {"Global Quote": {"01. symbol": "JBSS3.SA", "02. open": "15.30", "03. high": "15.50", "04. low": "15.25", "05. price": "15.40", "06. volume": "60000", "07. latest trading day": "2025-07-18", "08. previous close": "15.30", "09. change": "0.10", "10. change percent": "0.65%"}},
+  {"Global Quote": {"01. symbol": "LREN3.SA", "02. open": "21.00", "03. high": "21.30", "04. low": "20.90", "05. price": "21.15", "06. volume": "45000", "07. latest trading day": "2025-07-18", "08. previous close": "21.00", "09. change": "0.15", "10. change percent": "0.71%"}},
+  {"Global Quote": {"01. symbol": "MGLU3.SA", "02. open": "9.50", "03. high": "9.60", "04. low": "9.45", "05. price": "9.55", "06. volume": "83000", "07. latest trading day": "2025-07-18", "08. previous close": "9.50", "09. change": "0.05", "10. change percent": "0.53%"}},
+  {"Global Quote": {
       "01. symbol": "DEFAULT",
       "02. open": "10.00",
       "03. high": "10.50",

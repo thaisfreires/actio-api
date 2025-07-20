@@ -128,4 +128,10 @@ public class MovementService {
         return movementTypeRepository.findByTypeDescription(description)
                 .orElseThrow(() -> new RuntimeException("MovementType '" + description + "' not found"));
     }
+
+
+
+    public void save(Movement movement) {
+        Movement saved_movement = movementRepository.save(movement);
+    }
 }
