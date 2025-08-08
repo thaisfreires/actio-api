@@ -56,7 +56,7 @@ public class Account {
      * Status of the account, such as active, suspended, or closed.
      * Many accounts can share the same status code reference.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_code")
     private AccountStatus status;
 

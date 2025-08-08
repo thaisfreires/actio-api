@@ -41,7 +41,7 @@ public class StockItem {
      * Reference to the owning account.
      * Part of the composite key via mapping.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("accountId")
     @JoinColumn(name = "id_account")
     private Account account;
@@ -50,7 +50,7 @@ public class StockItem {
      * Reference to the traded stock.
      * Part of the composite key via mapping.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("stockId")
     @JoinColumn(name = "id_stock")
     private Stock stock;

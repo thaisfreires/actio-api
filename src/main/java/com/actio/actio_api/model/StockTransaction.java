@@ -42,7 +42,7 @@ public class StockTransaction {
      * Account executing the transaction.
      * Represents the financial context and ownership of the trade.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_account")
     private Account account;
 
@@ -50,7 +50,7 @@ public class StockTransaction {
      * Stock involved in the transaction.
      * Indicates which market asset was traded.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_stock")
     private Stock stock;
 
@@ -72,7 +72,7 @@ public class StockTransaction {
      * Nature of the transaction, such as purchase or sale.
      * Used for classification and reporting.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_code")
     private TransactionType transactionType;
 

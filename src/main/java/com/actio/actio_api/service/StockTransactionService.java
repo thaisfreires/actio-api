@@ -183,10 +183,13 @@ public class StockTransactionService {
     private StockTransactionResponse transactionToResponse(StockTransaction transaction) {
         return StockTransactionResponse.builder()
                 .transactionId(transaction.getId())
+                .transactionType(transaction.getTransactionType().getTypeDescription())
+                .transactionTypeId(transaction.getTransactionType().getTypeCode())
+                .stockSymbol(transaction.getStock().getStockName())
                 .stockId(transaction.getStock().getIdStock())
                 .quantity(transaction.getQuantity())
                 .value(transaction.getNegotiationPrice())
-                .totalValue(transaction.getNegotiationPrice().multiply(BigDecimal.valueOf(transaction.getQuantity())))
+                .transactionDateTime(transaction.getTransactionDateTime())
                 .build();
     }
 

@@ -93,7 +93,7 @@ public class ActioUser {
      * Associated role of the user for access control.
      * Defines user permissions within the system.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_code")
     private UserRole userRole;
 

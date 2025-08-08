@@ -32,7 +32,7 @@ public class CacheConfig {
      */
     @Bean
     public CacheManager cacheManager() {
-        System.out.println("##### ###### Fetching usdToEurRate");
+        System.out.println("[CacheConfig] Fetching usdToEurRate");
         CaffeineCacheManager cacheManager = new CaffeineCacheManager("usdToEurRate");
         cacheManager.setCaffeine(
                 Caffeine.newBuilder()
