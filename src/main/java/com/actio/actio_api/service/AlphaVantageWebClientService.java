@@ -1,20 +1,17 @@
 package com.actio.actio_api.service;
 
+import com.actio.actio_api.db.QuoteFallBackProvider;
 import com.actio.actio_api.model.Stock;
 import com.actio.actio_api.model.response.GetAlphaVantageStockResponse;
 import com.actio.actio_api.model.webclient.AlphaVantageResponse;
 import com.actio.actio_api.model.webclient.GlobalQuote;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -43,16 +40,18 @@ public class AlphaVantageWebClientService {
     private final WebClient webClient;
     private final CurrencyCacheService currencyCacheService;
     private final StockService stockService;
+    private final QuoteFallBackProvider quoteFallBackProvider;
 
     @Value("${apiKey}")
     private String apiKey;
 
-    public AlphaVantageWebClientService(WebClient.Builder builder, CurrencyCacheService currencyCacheService, StockService stockService) {
+    public AlphaVantageWebClientService(CurrencyCacheService currencyCacheService, StockService stockService) {
         this.webClient = WebClient.builder()
                 .baseUrl("https://www.alphavantage.co")
                 .build();
         this.currencyCacheService = currencyCacheService;
         this.stockService = stockService;
+        this.quoteFallBackProvider = new QuoteFallBackProvider();
     }
 
     /**
@@ -71,6 +70,7 @@ public class AlphaVantageWebClientService {
      * @return Mono containing the stock quote response in EUR, or an error
      */
     public Mono<GetAlphaVantageStockResponse> getStock(String symbol) {
+        System.out.println("[AlphaVantageWebClientService] getStock: " + symbol);
         return fetchExchangeRate()
                 .flatMap(exchangeRate -> fetchStockQuote(symbol)
                         .map(quote -> convertQuoteToEuro(quote, exchangeRate))
@@ -120,6 +120,7 @@ public class AlphaVantageWebClientService {
      * @return Mono containing the resolved GlobalQuote from live data or fallback
      */
     private Mono<GlobalQuote> fetchStockQuote(String symbol) {
+        System.out.println("[AlphaVantageWebClientService] fetchStockQuote: " + symbol);
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/query")
@@ -139,8 +140,9 @@ public class AlphaVantageWebClientService {
                     return Mono.just(quote);
                 })
                 .onErrorResume(ex -> {
-                    System.out.println("[AlphaVantageWebClientService] fetchStockQuote failed: " + ex.getMessage());
+                    System.out.println("[AlphaVantageWebClientService] fetchStockQuote failed for symbol " + symbol + ": " + ex.getMessage());
                     GlobalQuote fallbackQuote = loadMockQuote(symbol);
+                    System.out.println("[AlphaVantageWebClientService] loadedMockQuote for symbol " + symbol + ": " + fallbackQuote);
                     return Mono.just(fallbackQuote);
                 });
     }
@@ -225,31 +227,10 @@ public class AlphaVantageWebClientService {
      */
     private GlobalQuote loadMockQuote(String symbol) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            InputStream inputStream = new FileInputStream("src/main/resources/mock/mock-stock-responses.json");
-            JsonNode root = mapper.readTree(inputStream);
-
-            for (JsonNode node : root) {
-                JsonNode quoteNode = node.path("Global Quote");
-                String mockSymbol = quoteNode.path("01. symbol").asText();
-                if (symbol.equalsIgnoreCase(mockSymbol)) {
-                    return parseMockGlobalQuote(quoteNode);
-                }
-            }
-
-            for (JsonNode node : root) {
-                JsonNode quoteNode = node.path("Global Quote");
-                if ("DEFAULT".equalsIgnoreCase(quoteNode.path("01. symbol").asText())) {
-                    ObjectNode defaultQuote = quoteNode.deepCopy();
-                    defaultQuote.put("01. symbol", symbol);
-                    return parseMockGlobalQuote(defaultQuote);
-                }
-            }
-            System.out.println("[AlphaVantageWebClientServie] loadMockQuote failed: No data available for symbol: " + symbol);
-            throw new RuntimeException("[loadMockQuote] No data available for symbol: " + symbol);
+            return quoteFallBackProvider.getFallBackQuote(symbol);
         } catch (Exception ex) {
             System.out.println("[AlphaVantageWebClientServie] loadMockQuote failed: Failed to load fallback data: " + ex.getMessage());
-            throw new IllegalStateException("Failed to load fallback data." );
+            return quoteFallBackProvider.getFallBackQuote("DEFAULT");
         }
     }
 
