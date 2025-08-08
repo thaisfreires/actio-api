@@ -227,7 +227,7 @@ public class AlphaVantageWebClientService {
      */
     private GlobalQuote loadMockQuote(String symbol) {
         try {
-            return quoteFallBackProvider.getFallBackQuote(symbol);
+            return quoteFallBackProvider.getFallBackQuote(symbol.toUpperCase());
         } catch (Exception ex) {
             System.out.println("[AlphaVantageWebClientServie] loadMockQuote failed: Failed to load fallback data: " + ex.getMessage());
             return quoteFallBackProvider.getFallBackQuote("DEFAULT");
