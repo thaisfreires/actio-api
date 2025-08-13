@@ -40,7 +40,7 @@ public class Movement {
      * The account associated with this movement.
      * Represents which account the transaction affects.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_account")
     private Account account;
 
@@ -54,7 +54,7 @@ public class Movement {
      * Type of the movement such as deposit or withdrawal.
      * Used for classification and auditing purposes.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_code")
     private MovementType movementType;
 
